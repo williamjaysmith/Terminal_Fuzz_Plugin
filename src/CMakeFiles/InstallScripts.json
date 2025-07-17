@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/cmake_install.cmake",
+		"/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/external/JUCE/cmake_install.cmake",
+		"/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/external/JUCE/modules/cmake_install.cmake",
+		"/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/external/JUCE/extras/Build/cmake_install.cmake",
+		"/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/external/JUCE/extras/Build/juceaide/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

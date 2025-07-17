@@ -1,0 +1,44 @@
+=== CHANNEL CLEAR CHECK #1 ===
+Input channels: 1
+Output channels: 1
+Buffer channels: 1
+Will clear channels 1 to 0
+=== BUFFER WRITE #1 ===
+Writing to channelData[0] = 0.019727
+Verification: channelData[0] now = 0.019727
+Channel: 0, Sample: 0
+=== BUFFER WRITE #2 ===
+Writing to channelData[1] = 0.019727
+Verification: channelData[1] now = 0.019727
+Channel: 0, Sample: 1
+=== BUFFER WRITE #3 ===
+Writing to channelData[2] = 0.019727
+Verification: channelData[2] now = 0.019727
+Channel: 0, Sample: 2
+=== BUFFER WRITE #4 ===
+Writing to channelData[3] = 0.019727
+Verification: channelData[3] now = 0.019727
+Channel: 0, Sample: 3
+=== BUFFER WRITE #5 ===
+Writing to channelData[4] = 0.019727
+Verification: channelData[4] now = 0.019727
+Channel: 0, Sample: 4
+=== MONO BUFFER CHECK #1 ===
+Mono buffer: [0]=0.019727 [1]=0.019727 [2]=0.019727
+Buffer channels: 1
+=== CHANNEL CLEAR CHECK #2 ===
+Input channels: 1
+Output channels: 1
+Buffer channels: 1
+Will clear channels 1 to 0
+=== MONO BUFFER CHECK #2 ===
+Mono buffer: [0]=0.019727 [1]=0.019727 [2]=0.019727
+Buffer channels: 1
+=== CHANNEL CLEAR CHECK #3 ===
+Input channels: 1
+Output channels: 1
+Buffer channels: 1
+Will clear channels 1 to 0
+=== MONO BUFFER CHECK #3 ===
+Mono buffer: [0]=0.019727 [1]=0.019727 [2]=0.019727
+Buffer channels: 1
