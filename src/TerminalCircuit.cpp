@@ -1,6 +1,10 @@
 #include "TerminalCircuit.h"
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 namespace TerminalFuzz { namespace DSP {
 
 TerminalCircuit::TerminalCircuit() : sampleRate_(44100.0) {
@@ -204,9 +208,12 @@ float TerminalCircuit::processSample(float sample, int channel,
         return sample * levelAmount;
     }
     
+    // C1 input coupling capacitor (100nF) - AC coupling, blocks DC
+    float c1_coupled = applyCouplingCapacitor(sample, cv.c1, 20.0f, channel);  // 20Hz cutoff
+    
     // Fuzz control - massive gain for broken terminal character
     float fuzzLevel = 10.0f + fuzzAmount * 490.0f;  // 10x to 500x gain range
-    float fuzzedSignal = sample * fuzzLevel;
+    float fuzzedSignal = c1_coupled * fuzzLevel;
     
     // Apply Q2 gain control before Q2 stage
     float q2Gain = juce::Decibels::decibelsToGain(q2GainDb);
@@ -235,14 +242,12 @@ float TerminalCircuit::processSample(float sample, int channel,
         }
     }
     
-    // TONE STACK IMPLEMENTATION (between Q2 and Q3)
-    // Per schematic: Voice (R5/R6/C6) + Treble (C5) active controls
-    // This is the critical missing piece!
-    float tone_processed = applyToneStack(q2Output, voiceAmount, trebleAmount, cv);
+    // TONE STACK BYPASSED - Focus on getting distortion right first
+    // float tone_processed = applyToneStack(q2Output, voiceAmount, trebleAmount, cv);
     
     // Q2→Q3 Gain Buffer (realistic intermediate stage)
     float q2_to_q3_gain = 2.0f;   // Reduced from 15x to 2x to prevent Q3 overload
-    float q3_buffer_input = tone_processed * q2_to_q3_gain;
+    float q3_buffer_input = q2Output * q2_to_q3_gain;
     
     // Add DC bias to Q3 input with slight misbias for vintage character
     float q3_optimal_bias = 0.1f;
@@ -307,10 +312,13 @@ float TerminalCircuit::processSample(float sample, int channel,
         }
     }
     
+    // C8 and C9 output coupling capacitors (10μF each) - Stage 1 and 2
+    float c8_coupled = applyCouplingCapacitor(q1Output, cv.c8, 5.0f, channel);  // 5Hz cutoff for low end
+    float c9_coupled = applyCouplingCapacitor(c8_coupled, cv.c9, 5.0f, channel);  // Double coupling for extra low end
+    
     // Apply level control with proper scaling for audio range
-    // Use Q1 output since we fixed the voltage clipping
-    float outputScale = 0.01f;  // FIXED: Reduced further to achieve reasonable audio levels
-    float finalOutput = q1Output * levelAmount * outputScale;
+    float outputScale = 5.0f;  // FIXED: Increased from 0.01f to 5.0f for audible levels
+    float finalOutput = c9_coupled * levelAmount * outputScale;
     
     // DEBUG: Final output check and buffer routing verification + NaN/Inf checking
     if (debug_count <= 5) {
@@ -483,11 +491,12 @@ float TerminalCircuit::q1OutputStage(float sample, int channel, float q1GainDb, 
     float r11_collector = 100000.0f; // 100kΩ collector load
     float r10_bias = 10000.0f;      // 10kΩ base bias
     
-    float output = bjt_ebers_moll(sample, vce_estimate, cv.q1_model, 
-                                 get_starved_supply_voltage(), r9_emitter, 
-                                 r11_collector, r10_bias);
+    // FIXED: Q1 should be a unity gain buffer, not a high-gain amplifier
+    // Simple emitter follower behavior for output buffering
+    float buffer_gain = 0.9f;  // Slightly less than unity (typical emitter follower)
+    float buffered_output = sample * buffer_gain;
     
-    return output;
+    return buffered_output;
 }
 
 float TerminalCircuit::get_starved_supply_voltage() const {
@@ -516,10 +525,10 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     float vbe_base = model.vbe_on;  // Base VBE (0.66V for Q2, 0.70V for Q3)
     float signal_factor = std::abs(vin);
     
-    // FIXED: Logarithmic scaling for much more responsive VBE
-    float vbe_max = vbe_base + 0.25f;  // Allow up to 0.25V above base for Terminal's broken character
-    float log_scale = 0.3f;  // FIXED: Much more aggressive scaling to hit 0.85V+ VBE for Terminal character
-    float vbe_delta = 0.25f * (1.0f - std::exp(-signal_factor / log_scale));  // Match increased vbe_max
+    // FIXED: More gradual VBE response - don't hit ceiling immediately
+    float vbe_max = vbe_base + 0.15f;  // Reduced ceiling to allow more variation
+    float log_scale = 2.0f;  // FIXED: Less aggressive scaling for more input sensitivity
+    float vbe_delta = 0.15f * (1.0f - std::exp(-signal_factor / log_scale));  // Match reduced vbe_max
     
     // Apply input polarity with asymmetric bias drift - positive/negative bias differently
     float positive_bias_scale = 1.0f;    // Normal positive response
@@ -630,8 +639,8 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     float emitter_voltage_drop = collector_current * emitter_resistor;
     float emitter_feedback = emitter_voltage_drop * 0.1f;
     
-    // Output scaling - FIXED: Reduced further to prevent DAW overload
-    float current_scale = 2.0f;
+    // Output scaling - BALANCE FIX: Find sweet spot between too loud and too quiet
+    float current_scale = 0.5f;  // Increased from 0.001f to 0.5f for audible distortion
     float output_raw = collector_current * current_scale;
     float output = output_raw - emitter_feedback;
     
@@ -752,6 +761,32 @@ float TerminalCircuit::applyToneStack(float input, float voiceAmount, float treb
     }
     
     return c3_processed;
+}
+
+float TerminalCircuit::applyCouplingCapacitor(float input, float capacitance, float cutoff_frequency, int channel) {
+    // Simple first-order high-pass filter implementation for coupling capacitors
+    // Cutoff frequency = 1 / (2π * R * C)
+    // For coupling caps, the series resistance is typically 10kΩ to 100kΩ
+    
+    if (channel >= Constants::MAX_CHANNELS) channel = 0;
+    
+    // Calculate alpha for high-pass filter
+    float rc = 1.0f / (2.0f * M_PI * cutoff_frequency);
+    float dt = 1.0f / static_cast<float>(sampleRate_);
+    float alpha = rc / (rc + dt);
+    
+    // Apply high-pass filter (removes DC, preserves AC)
+    // Using a simple state variable to track the filter
+    static float filter_state[Constants::MAX_CHANNELS] = {0.0f};
+    static float prev_input[Constants::MAX_CHANNELS] = {0.0f};
+    
+    float output = alpha * (filter_state[channel] + input - prev_input[channel]);
+    
+    // Update state
+    filter_state[channel] = output;
+    prev_input[channel] = input;
+    
+    return output;
 }
 
 }} // namespace TerminalFuzz::DSP

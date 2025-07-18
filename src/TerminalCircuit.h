@@ -133,6 +133,9 @@ private:
     float q1OutputStage(float sample, int channel, float q1GainDb, const ComponentValues& cv);
     float outputStage(float sample, int channel, float levelAmount, const ComponentValues& cv);
     
+    // Capacitor modeling
+    float applyCouplingCapacitor(float input, float capacitance, float cutoff_frequency, int channel);
+    
     // Real BJT Physics Modeling (Ebers-Moll)
     float bjt_ebers_moll(float vin, float vce, const TransistorModel& model, float supply_voltage, 
                          float emitter_resistor, float collector_resistor, float base_bias_resistor);

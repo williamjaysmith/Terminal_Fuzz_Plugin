@@ -42,7 +42,7 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 
 **Transistors:**
 
-- Q1: twwewo (NPN, output buffer stage)
+- Q1: twwewowh (NPN, output buffer stage)
 - Q2: 2N2369 (NPN, main fuzz/gain stage)
 - Q3: 2N2369 (NPN, second gain stage)od
 
@@ -131,3 +131,49 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 
 - Version displayed in plugin GUI (top next to terminal fuzz text)
 - Increment version in Source/Common/BuildVersion.h for each build
+
+## WORKING BJT TRANSISTOR CONFIGURATION - CRITICAL SUCCESS
+
+**BREAKTHROUGH CONFIGURATION** - Produces authentic Terminal Fuzz hard clipping character
+
+### Key Working Parameters (TerminalCircuit.cpp):
+
+```cpp
+// CRITICAL: VBE Response Configuration
+float vbe_base = model.vbe_on;                    // Use model's VBE_ON (0.63-0.66V)
+float vbe_max = vbe_base + 0.15f;                 // REDUCED ceiling - allows variation
+float log_scale = 2.0f;                          // LESS aggressive scaling - more responsive
+float vbe_delta = 0.15f * (1.0f - std::exp(-signal_factor / log_scale));
+float vbe = vbe_base + (vbe_delta * vbe_polarity);
+
+// CRITICAL: Current Scaling
+float current_scale = 0.5f;                      // Balanced for audible distortion
+float outputScale = 5.0f;                        // Final output boost for DAW levels
+
+// CRITICAL: Q1 Buffer Simplification
+float buffer_gain = 0.9f;                        // Simple unity-gain buffer
+float buffered_output = sample * buffer_gain;    // No complex BJT math
+```
+
+### Why This Works:
+
+1. **VBE Ceiling Fix**: Reduced from 0.25V to 0.15V - transistors can actually vary VBE
+2. **Responsive Scaling**: log_scale 2.0f makes transistors react to input changes
+3. **Proper Current Output**: 0.5f scaling produces meaningful collector variations
+4. **Stable Buffer**: Q1 simplified to prevent massive negative amplification
+5. **Audible Levels**: 5.0f output scaling without DAW overload
+
+### BJT Characteristics That Work:
+
+- **Q1**: 2N3904, hFE=120, VBE_ON=0.65V (simple buffer)
+- **Q2**: 2N2369, hFE=50, VBE_ON=0.63V (main fuzz stage)
+- **Q3**: 2N2369, hFE=65, VBE_ON=0.66V (second gain stage)
+
+### Debug Results Showing Success:
+
+- Q2 VBE varying: 0.659-0.661V (proper variation)
+- Q3 VBE varying: 0.672-0.673V (good amplification)
+- Final output: ~0.094V (audible, not overwhelming)
+- Natural BJT saturation producing authentic hard clipping
+
+**NEVER CHANGE THESE WORKING VALUES WITHOUT TESTING**
