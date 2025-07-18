@@ -49,14 +49,52 @@ PhysicsPanelComponent::PhysicsPanelComponent(juce::AudioProcessorValueTreeState&
     
     // REMOVED: Auto-gain and extreme misbias toggles - user found them ineffective
     
+    // Manual transistor gain debugging controls with descriptive names
+    q1DebugSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
+    q1DebugLabel_ = std::make_unique<juce::Label>("", "Q1 OUTPUT BUFFER\n(2N3904)");
+    q1DebugSlider_->setTooltip("Manual gain control before Q1 output buffer stage");
+    q1BypassButton_ = std::make_unique<juce::ToggleButton>("Q1 BYPASS");
+    q1BypassButton_->setButtonText("BYPASS");
+    q1BypassButton_->setTooltip("Bypass Q1 output buffer stage");
+    addAndMakeVisible(*q1DebugSlider_);
+    addAndMakeVisible(*q1DebugLabel_);
+    addAndMakeVisible(*q1BypassButton_);
+    q1DebugAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+        parameters_, PluginParameters::Q1_MANUAL_GAIN_ID, *q1DebugSlider_);
+    q1BypassAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(
+        parameters_, PluginParameters::Q1_BYPASS_ID, *q1BypassButton_);
+    
+    q2DebugSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
+    q2DebugLabel_ = std::make_unique<juce::Label>("", "Q2 MAIN FUZZ\n(2N2369)");
+    q2DebugSlider_->setTooltip("Manual gain control before Q2 main fuzz stage");
+    q2BypassButton_ = std::make_unique<juce::ToggleButton>("Q2 BYPASS");
+    q2BypassButton_->setButtonText("BYPASS");
+    q2BypassButton_->setTooltip("Bypass Q2 main fuzz stage");
+    addAndMakeVisible(*q2DebugSlider_);
+    addAndMakeVisible(*q2DebugLabel_);
+    addAndMakeVisible(*q2BypassButton_);
+    q2DebugAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+        parameters_, PluginParameters::Q2_MANUAL_GAIN_ID, *q2DebugSlider_);
+    q2BypassAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(
+        parameters_, PluginParameters::Q2_BYPASS_ID, *q2BypassButton_);
+    
+    q3DebugSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
+    q3DebugLabel_ = std::make_unique<juce::Label>("", "Q3 CLEAN GAIN\n(2N2369)");
+    q3DebugSlider_->setTooltip("Manual gain control before Q3 clean gain stage");
+    q3BypassButton_ = std::make_unique<juce::ToggleButton>("Q3 BYPASS");
+    q3BypassButton_->setButtonText("BYPASS");
+    q3BypassButton_->setTooltip("Bypass Q3 clean gain stage");
+    addAndMakeVisible(*q3DebugSlider_);
+    addAndMakeVisible(*q3DebugLabel_);
+    addAndMakeVisible(*q3BypassButton_);
+    q3DebugAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+        parameters_, PluginParameters::Q3_MANUAL_GAIN_ID, *q3DebugSlider_);
+    q3BypassAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(
+        parameters_, PluginParameters::Q3_BYPASS_ID, *q3BypassButton_);
+    
     // REMOVED: All anti-gating controls - user found them ineffective
     
-    // Reset button (visible at bottom)
-    resetButton_ = std::make_unique<juce::TextButton>("Reset to Stock");
-    resetButton_->setButtonText("🔄 RESET TO STOCK PHYSICS");
-    resetButton_->setTooltip("Return all physics parameters to current working settings");
-    resetButton_->onClick = [this]() { resetToStockPhysics(); };
-    addAndMakeVisible(*resetButton_);
+    // Reset button removed
     
     setSize(600, 200);  // Reduced height after removing auto-gain/misbias buttons
 }
@@ -144,9 +182,36 @@ void PhysicsPanelComponent::resized() {
     
     // REMOVED: Auto-gain and extreme misbias row - user found them ineffective
     
-    // Bottom row: Reset button only (centered)
-    auto bottomRow = controlsArea.removeFromTop(45);
-    resetButton_->setBounds(bottomRow.reduced(5));
+    // Reset button removed
+    
+    // Manual transistor gain debugging controls (centered in middle section)
+    auto debugArea = getLocalBounds().removeFromBottom(120); // More height for buttons
+    auto totalControlsWidth = 300; // 3 controls x 100px each  
+    auto startX = (debugArea.getWidth() - totalControlsWidth) / 2; // Center horizontally
+    debugArea = debugArea.withX(startX).withWidth(totalControlsWidth);
+    debugArea.reduce(10, 5);
+    auto debugWidth = debugArea.getWidth() / 3;
+    
+    // Q2 knob, button, and label
+    auto q2Area = juce::Rectangle<int>(debugArea.getX(), debugArea.getY(), debugWidth, debugArea.getHeight());
+    q2BypassButton_->setBounds(q2Area.removeFromTop(25)); // Bypass button at top
+    q2DebugSlider_->setBounds(q2Area.removeFromTop(65));  // Knob in middle
+    q2DebugLabel_->setBounds(q2Area);                     // Label at bottom
+    q2DebugLabel_->setJustificationType(juce::Justification::centred);
+    
+    // Q3 knob, button, and label  
+    auto q3Area = juce::Rectangle<int>(debugArea.getX() + debugWidth, debugArea.getY(), debugWidth, debugArea.getHeight());
+    q3BypassButton_->setBounds(q3Area.removeFromTop(25)); // Bypass button at top
+    q3DebugSlider_->setBounds(q3Area.removeFromTop(65));  // Knob in middle
+    q3DebugLabel_->setBounds(q3Area);                     // Label at bottom
+    q3DebugLabel_->setJustificationType(juce::Justification::centred);
+    
+    // Q1 knob, button, and label
+    auto q1Area = juce::Rectangle<int>(debugArea.getX() + debugWidth * 2, debugArea.getY(), debugWidth, debugArea.getHeight());
+    q1BypassButton_->setBounds(q1Area.removeFromTop(25)); // Bypass button at top
+    q1DebugSlider_->setBounds(q1Area.removeFromTop(65));  // Knob in middle
+    q1DebugLabel_->setBounds(q1Area);                     // Label at bottom
+    q1DebugLabel_->setJustificationType(juce::Justification::centred);
 }
 
 

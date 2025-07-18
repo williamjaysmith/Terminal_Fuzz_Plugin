@@ -5,7 +5,7 @@
 namespace TerminalFuzz {
 
 // Build Version
-#define TERMINAL_FUZZ_BUILD_VERSION "v3.99-CLEAN-REVERT"
+#define TERMINAL_FUZZ_BUILD_VERSION "v4.01-SIGNAL-BOOST"
 #define BUILD_INFO_STRING "Terminal Fuzz " TERMINAL_FUZZ_BUILD_VERSION " - Build Date: " __DATE__ " " __TIME__
 
 namespace Constants {

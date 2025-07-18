@@ -144,6 +144,32 @@ juce::AudioProcessorValueTreeState::ParameterLayout PluginParameters::createPara
     params.push_back(createFloatParameter(
         Q3_BIAS_ID, "Q3 2N2369 Bias", 0.3f, 1.2f, 0.6f, "V"
     ));
+    
+    // Manual Gain Controls (+/-100dB)
+    params.push_back(createFloatParameter(
+        Q1_MANUAL_GAIN_ID, "Q1 Manual Gain", -100.0f, 100.0f, 0.0f, " dB"
+    ));
+    
+    params.push_back(createFloatParameter(
+        Q2_MANUAL_GAIN_ID, "Q2 Manual Gain", -100.0f, 100.0f, 0.0f, " dB"
+    ));
+    
+    params.push_back(createFloatParameter(
+        Q3_MANUAL_GAIN_ID, "Q3 Manual Gain", -100.0f, 100.0f, 0.0f, " dB"
+    ));
+    
+    // Transistor Bypass Controls (for debugging)
+    params.push_back(createBoolParameter(
+        Q1_BYPASS_ID, "Q1 Bypass", false
+    ));
+    
+    params.push_back(createBoolParameter(
+        Q2_BYPASS_ID, "Q2 Bypass", false
+    ));
+    
+    params.push_back(createBoolParameter(
+        Q3_BYPASS_ID, "Q3 Bypass", false
+    ));
 
     // Diode parameters
     params.push_back(createFloatParameter(
@@ -438,6 +464,32 @@ float PluginParameters::getQ3Gain(const juce::AudioProcessorValueTreeState& apvt
 
 float PluginParameters::getQ3Bias(const juce::AudioProcessorValueTreeState& apvts) {
     return apvts.getRawParameterValue(Q3_BIAS_ID)->load();
+}
+
+// Manual gain control getters
+float PluginParameters::getQ1ManualGain(const juce::AudioProcessorValueTreeState& apvts) {
+    return apvts.getRawParameterValue(Q1_MANUAL_GAIN_ID)->load();
+}
+
+float PluginParameters::getQ2ManualGain(const juce::AudioProcessorValueTreeState& apvts) {
+    return apvts.getRawParameterValue(Q2_MANUAL_GAIN_ID)->load();
+}
+
+float PluginParameters::getQ3ManualGain(const juce::AudioProcessorValueTreeState& apvts) {
+    return apvts.getRawParameterValue(Q3_MANUAL_GAIN_ID)->load();
+}
+
+// Transistor bypass getters
+bool PluginParameters::getQ1Bypass(const juce::AudioProcessorValueTreeState& apvts) {
+    return apvts.getRawParameterValue(Q1_BYPASS_ID)->load() > 0.5f;
+}
+
+bool PluginParameters::getQ2Bypass(const juce::AudioProcessorValueTreeState& apvts) {
+    return apvts.getRawParameterValue(Q2_BYPASS_ID)->load() > 0.5f;
+}
+
+bool PluginParameters::getQ3Bypass(const juce::AudioProcessorValueTreeState& apvts) {
+    return apvts.getRawParameterValue(Q3_BYPASS_ID)->load() > 0.5f;
 }
 
 // Diode parameter getters

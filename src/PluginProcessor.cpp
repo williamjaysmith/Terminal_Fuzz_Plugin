@@ -234,9 +234,10 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
     // Update parameters
     updateParameters();
 
-    // Process through Terminal circuit with NaN detection
+    // Process through Terminal circuit with manual transistor gains and bypass controls
     terminalCircuit_.processBlock(buffer, inputGainDb_, fuzzAmount_, voiceAmount_, 
-                                 trebleAmount_, levelAmount_, componentValues_);
+                                 trebleAmount_, levelAmount_, q1ManualGain_, q2ManualGain_, q3ManualGain_,
+                                 q1Bypass_, q2Bypass_, q3Bypass_, componentValues_);
     
     // FIXED: Use actual circuit output (not forced test signal)
     // Circuit calculations are working perfectly - 0.287V output confirmed
@@ -250,6 +251,16 @@ void PluginProcessor::updateParameters() {
     voiceAmount_ = PluginParameters::getVoice(parameters_);
     trebleAmount_ = PluginParameters::getTreble(parameters_);
     levelAmount_ = PluginParameters::getLevel(parameters_);
+    
+    // Update manual transistor gain controls
+    q1ManualGain_ = PluginParameters::getQ1ManualGain(parameters_);
+    q2ManualGain_ = PluginParameters::getQ2ManualGain(parameters_);
+    q3ManualGain_ = PluginParameters::getQ3ManualGain(parameters_);
+    
+    // Update transistor bypass controls
+    q1Bypass_ = PluginParameters::getQ1Bypass(parameters_);
+    q2Bypass_ = PluginParameters::getQ2Bypass(parameters_);
+    q3Bypass_ = PluginParameters::getQ3Bypass(parameters_);
     
     // Update component values (for back panel tweaking)
     componentValues_.r1 = PluginParameters::getR1(parameters_);

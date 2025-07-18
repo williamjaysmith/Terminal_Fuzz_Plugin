@@ -56,7 +56,7 @@ private:
     
     // REMOVED: All anti-gating controls - user found them ineffective
     
-    std::unique_ptr<juce::TextButton> resetButton_;
+    // Reset button removed
     
     // Setup helpers
     void setupMasterControl(MasterControl& master, 
@@ -74,6 +74,25 @@ private:
     
     // Stock physics values for reset
     DSP::TerminalCircuit::PhysicsControls stockPhysics_;
+    
+    // Manual transistor gain debugging controls
+    std::unique_ptr<juce::Slider> q1DebugSlider_;
+    std::unique_ptr<juce::Label> q1DebugLabel_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> q1DebugAttachment_;
+    std::unique_ptr<juce::ToggleButton> q1BypassButton_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> q1BypassAttachment_;
+    
+    std::unique_ptr<juce::Slider> q2DebugSlider_;
+    std::unique_ptr<juce::Label> q2DebugLabel_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> q2DebugAttachment_;
+    std::unique_ptr<juce::ToggleButton> q2BypassButton_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> q2BypassAttachment_;
+    
+    std::unique_ptr<juce::Slider> q3DebugSlider_;
+    std::unique_ptr<juce::Label> q3DebugLabel_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> q3DebugAttachment_;
+    std::unique_ptr<juce::ToggleButton> q3BypassButton_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> q3BypassAttachment_;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PhysicsPanelComponent)
 };

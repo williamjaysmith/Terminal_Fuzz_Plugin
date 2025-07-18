@@ -72,6 +72,12 @@ public:
                      float voiceAmount, 
                      float trebleAmount,
                      float levelAmount,
+                     float q1GainDb,
+                     float q2GainDb,
+                     float q3GainDb,
+                     bool q1Bypass,
+                     bool q2Bypass,
+                     bool q3Bypass,
                      const ComponentValues& componentValues);
     void reset();
     
@@ -115,13 +121,16 @@ private:
     float processSample(float sample, int channel,
                        float inputGainDb, float fuzzAmount, float voiceAmount, 
                        float trebleAmount, float levelAmount,
+                       float q1GainDb, float q2GainDb, float q3GainDb,
+                       bool q1Bypass, bool q2Bypass, bool q3Bypass,
                        const ComponentValues& cv);
 
     // Circuit stages
     float inputStage(float sample, int channel, const ComponentValues& cv);
-    float q2TransistorStage(float sample, int channel, const ComponentValues& cv);
-    float q3TransistorStage(float sample, int channel, float voiceAmount, float trebleAmount, const ComponentValues& cv);
-    float q1OutputStage(float sample, int channel, const ComponentValues& cv);
+    float q2TransistorStage(float sample, int channel, float q2GainDb, const ComponentValues& cv);
+    float applyToneStack(float input, float voiceAmount, float trebleAmount, const ComponentValues& cv);
+    float q3TransistorStage(float sample, int channel, float voiceAmount, float trebleAmount, float q3GainDb, const ComponentValues& cv);
+    float q1OutputStage(float sample, int channel, float q1GainDb, const ComponentValues& cv);
     float outputStage(float sample, int channel, float levelAmount, const ComponentValues& cv);
     
     // Real BJT Physics Modeling (Ebers-Moll)

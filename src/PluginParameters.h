@@ -54,6 +54,16 @@ public:
     static constexpr const char* Q3_GAIN_ID = "q3_gain";     // 2N2369 second stage gain
     static constexpr const char* Q3_BIAS_ID = "q3_bias";     // 2N2369 bias point
     
+    // Transistor Manual Gain Controls (+/-100dB)
+    static constexpr const char* Q1_MANUAL_GAIN_ID = "q1_manual_gain";  // Manual Q1 gain control
+    static constexpr const char* Q2_MANUAL_GAIN_ID = "q2_manual_gain";  // Manual Q2 gain control
+    static constexpr const char* Q3_MANUAL_GAIN_ID = "q3_manual_gain";  // Manual Q3 gain control
+    
+    // Transistor Bypass Controls (debugging)
+    static constexpr const char* Q1_BYPASS_ID = "q1_bypass";  // Bypass Q1 stage
+    static constexpr const char* Q2_BYPASS_ID = "q2_bypass";  // Bypass Q2 stage  
+    static constexpr const char* Q3_BYPASS_ID = "q3_bypass";  // Bypass Q3 stage
+    
     // Diode Parameters
     static constexpr const char* D1_THRESHOLD_ID = "d1_threshold";  // 1N5817 forward voltage
     static constexpr const char* D2_BRIGHTNESS_ID = "d2_brightness"; // LED brightness
@@ -163,6 +173,16 @@ public:
     static float getQ2Bias(const juce::AudioProcessorValueTreeState& apvts);
     static float getQ3Gain(const juce::AudioProcessorValueTreeState& apvts);
     static float getQ3Bias(const juce::AudioProcessorValueTreeState& apvts);
+    
+    // Manual gain control getters (+/-100dB)
+    static float getQ1ManualGain(const juce::AudioProcessorValueTreeState& apvts);
+    static float getQ2ManualGain(const juce::AudioProcessorValueTreeState& apvts);
+    static float getQ3ManualGain(const juce::AudioProcessorValueTreeState& apvts);
+    
+    // Transistor bypass getters
+    static bool getQ1Bypass(const juce::AudioProcessorValueTreeState& apvts);
+    static bool getQ2Bypass(const juce::AudioProcessorValueTreeState& apvts);
+    static bool getQ3Bypass(const juce::AudioProcessorValueTreeState& apvts);
     
     // Diode parameter getters
     static float getD1Threshold(const juce::AudioProcessorValueTreeState& apvts);

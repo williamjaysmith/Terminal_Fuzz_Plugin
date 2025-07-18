@@ -41,6 +41,8 @@ FrontPanelComponent::FrontPanelComponent(juce::AudioProcessorValueTreeState& par
     configureSlider(*levelSlider_, *levelLabel_, "LEVEL");
     levelAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         parameters_, PluginParameters::LEVEL_ID, *levelSlider_);
+    
+    // Manual transistor gain controls moved to physics panel
 }
 
 FrontPanelComponent::~FrontPanelComponent() {
@@ -128,6 +130,8 @@ void FrontPanelComponent::resized() {
     // Bottom row: Treble, Level
     trebleSlider_->setBounds(remainingBounds.getX(), remainingBounds.getY() + controlHeight, controlWidth, controlHeight);
     levelSlider_->setBounds(remainingBounds.getX() + controlWidth, remainingBounds.getY() + controlHeight, controlWidth, controlHeight);
+    
+    // Manual transistor gain controls moved to physics panel
     
     // Position labels
     auto labelHeight = 20;

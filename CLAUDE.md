@@ -42,7 +42,7 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 
 **Transistors:**
 
-- Q1: 2N3904 (NPN, output buffer stage)
+- Q1: twwewo (NPN, output buffer stage)
 - Q2: 2N2369 (NPN, main fuzz/gain stage)
 - Q3: 2N2369 (NPN, second gain stage)od
 
@@ -131,12 +131,3 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 
 - Version displayed in plugin GUI (top next to terminal fuzz text)
 - Increment version in Source/Common/BuildVersion.h for each build
-
-## Response Style Requirements
-
-**SHORTEST RESPONSES POSSIBLE** - User wants minimal token usage:
-
-- No long explanations unless requested
-- No preamble or summaries
-- One-word answers when possible
-- Get straight to the point

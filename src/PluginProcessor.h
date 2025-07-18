@@ -83,6 +83,16 @@ private:
     float trebleAmount_ = 0.5f;
     float levelAmount_ = 0.5f;
     
+    // Manual transistor gain controls
+    float q1ManualGain_ = 0.0f;
+    float q2ManualGain_ = 0.0f;
+    float q3ManualGain_ = 0.0f;
+    
+    // Transistor bypass controls
+    bool q1Bypass_ = false;
+    bool q2Bypass_ = false;
+    bool q3Bypass_ = false;
+    
     // Current component values
     DSP::TerminalCircuit::ComponentValues componentValues_;
     

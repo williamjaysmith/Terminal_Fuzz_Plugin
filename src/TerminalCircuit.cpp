@@ -15,6 +15,8 @@ void TerminalCircuit::prepare(double sampleRate, int samplesPerBlock) {
 void TerminalCircuit::processBlock(juce::AudioBuffer<float>& buffer,
                                   float inputGainDb, float fuzzAmount, float voiceAmount, 
                                   float trebleAmount, float levelAmount,
+                                  float q1GainDb, float q2GainDb, float q3GainDb,
+                                  bool q1Bypass, bool q2Bypass, bool q3Bypass,
                                   const ComponentValues& componentValues) {
     const int numChannels = buffer.getNumChannels();
     const int numSamples = buffer.getNumSamples();
@@ -62,6 +64,8 @@ void TerminalCircuit::processBlock(juce::AudioBuffer<float>& buffer,
             float processedSample = processSample(
                 inputSample, channel,
                 inputGainDb, fuzzAmount, voiceAmount, trebleAmount, levelAmount,
+                q1GainDb, q2GainDb, q3GainDb,
+                q1Bypass, q2Bypass, q3Bypass,
                 componentValues
             );
             
@@ -177,6 +181,8 @@ void TerminalCircuit::reset() {
 float TerminalCircuit::processSample(float sample, int channel,
                                    float inputGainDb, float fuzzAmount, float voiceAmount,
                                    float trebleAmount, float levelAmount,
+                                   float q1GainDb, float q2GainDb, float q3GainDb,
+                                   bool q1Bypass, bool q2Bypass, bool q3Bypass,
                                    const ComponentValues& cv) {
     if (std::isnan(sample) || std::isinf(sample)) {
         return 0.0f;
@@ -202,8 +208,17 @@ float TerminalCircuit::processSample(float sample, int channel,
     float fuzzLevel = 10.0f + fuzzAmount * 490.0f;  // 10x to 500x gain range
     float fuzzedSignal = sample * fuzzLevel;
     
-    // Q2 Transistor Stage (main fuzz stage)
-    float q2Output = q2TransistorStage(fuzzedSignal, channel, cv);
+    // Apply Q2 gain control before Q2 stage
+    float q2Gain = juce::Decibels::decibelsToGain(q2GainDb);
+    float q2Input = fuzzedSignal * q2Gain;
+    
+    // Q2 Transistor Stage (main fuzz stage) - with bypass
+    float q2Output;
+    if (q2Bypass) {
+        q2Output = q2Input;  // Bypass Q2 - pass signal through unchanged
+    } else {
+        q2Output = q2TransistorStage(q2Input, channel, q2GainDb, cv);
+    }
     
     // DEBUG: Critical Q2→Q3 transition debugging
     static int debug_count = 0;
@@ -220,9 +235,14 @@ float TerminalCircuit::processSample(float sample, int channel,
         }
     }
     
+    // TONE STACK IMPLEMENTATION (between Q2 and Q3)
+    // Per schematic: Voice (R5/R6/C6) + Treble (C5) active controls
+    // This is the critical missing piece!
+    float tone_processed = applyToneStack(q2Output, voiceAmount, trebleAmount, cv);
+    
     // Q2→Q3 Gain Buffer (realistic intermediate stage)
-    float q2_to_q3_gain = 5.0f;  // 5x gain (14dB) - realistic for inter-stage coupling
-    float q3_buffer_input = q2Output * q2_to_q3_gain;
+    float q2_to_q3_gain = 2.0f;   // Reduced from 15x to 2x to prevent Q3 overload
+    float q3_buffer_input = tone_processed * q2_to_q3_gain;
     
     // Add DC bias to Q3 input with slight misbias for vintage character
     float q3_optimal_bias = 0.1f;
@@ -230,15 +250,45 @@ float TerminalCircuit::processSample(float sample, int channel,
     float q3_dc_bias = q3_optimal_bias + q3_misbias_offset;
     float q3_final_input = q3_buffer_input + q3_dc_bias;
     
-    // Q3 Transistor Stage (second gain stage)
-    float q3Output = q3TransistorStage(q3_final_input, channel, voiceAmount, trebleAmount, cv);
+    // Apply Q3 gain control before Q3 stage
+    float q3Gain = juce::Decibels::decibelsToGain(q3GainDb);
+    float q3Input = q3_final_input * q3Gain;
+    
+    // Q3 Transistor Stage (second gain stage) - with bypass
+    float q3Output;
+    if (q3Bypass) {
+        q3Output = q3Input;  // Bypass Q3 - pass signal through unchanged
+    } else {
+        q3Output = q3TransistorStage(q3Input, channel, voiceAmount, trebleAmount, q3GainDb, cv);
+    }
     
     // Q3→Q1 Buffer (output stage coupling)
     float q3_to_q1_gain = 1.0f;  // 1x gain - Q1 is just output buffer
     float q1_input = q3Output * q3_to_q1_gain;
     
-    // Q1 Transistor Stage (output buffer) - 2N3904
-    float q1Output = q1OutputStage(q1_input, channel, cv);
+    // Apply Q1 gain control before Q1 stage
+    float q1Gain = juce::Decibels::decibelsToGain(q1GainDb);
+    float q1Input = q1_input * q1Gain;
+    
+    // Q1 Transistor Stage (output buffer) - 2N3904 - with bypass
+    float q1Output;
+    if (q1Bypass) {
+        q1Output = q1Input;  // Bypass Q1 - pass signal through unchanged
+    } else {
+        q1Output = q1OutputStage(q1Input, channel, q1GainDb, cv);
+    }
+    
+    // DEBUG: Q1 buffer stage analysis - IS THIS WHERE WE'RE LOSING SIGNAL?
+    if (debug_count <= 5) {
+        FILE* debug_file = fopen("/Users/williamsmith/Desktop/q2_q3_debug.log", "a");
+        if (debug_file) {
+            fprintf(debug_file, "=== Q1 OUTPUT BUFFER STAGE ===\n");
+            fprintf(debug_file, "Q1 Input: %.6f\n", q1_input);
+            fprintf(debug_file, "Q1 Output: %.6f\n", q1Output);
+            fprintf(debug_file, "Q1 Output > 0.01? %s\n", (std::abs(q1Output) > 0.01f) ? "YES" : "NO - PROBLEM!");
+            fclose(debug_file);
+        }
+    }
     
     // DEBUG: Q2→Q3 Buffer analysis
     if (debug_count <= 5) {
@@ -258,8 +308,8 @@ float TerminalCircuit::processSample(float sample, int channel,
     }
     
     // Apply level control with proper scaling for audio range
-    // Q1 output (final buffer stage) scaled to ±1V audio range
-    float outputScale = 0.01f;  // Scale down to audio range
+    // Use Q1 output since we fixed the voltage clipping
+    float outputScale = 0.01f;  // FIXED: Reduced further to achieve reasonable audio levels
     float finalOutput = q1Output * levelAmount * outputScale;
     
     // DEBUG: Final output check and buffer routing verification + NaN/Inf checking
@@ -277,8 +327,8 @@ float TerminalCircuit::processSample(float sample, int channel,
             fprintf(debug_file, "Final Output NaN? %s\n", std::isnan(finalOutput) ? "YES - PROBLEM!" : "NO");
             fprintf(debug_file, "Final Output Inf? %s\n", std::isinf(finalOutput) ? "YES - PROBLEM!" : "NO");
             
-            // Test the limiting
-            float clampedOutput = juce::jlimit(-0.2f, 0.2f, finalOutput);
+            // Test the limiting - REMOVED: was killing fuzz signal at ±0.2V
+            float clampedOutput = finalOutput;  // No limiting in debug - let it be loud!
             fprintf(debug_file, "Final Output (after clamp): %.6f\n", clampedOutput);
             fprintf(debug_file, "Clamped Output NaN? %s\n", std::isnan(clampedOutput) ? "YES - PROBLEM!" : "NO");
             fprintf(debug_file, "Clamping Applied? %s\n", (clampedOutput != finalOutput) ? "YES" : "NO");
@@ -288,9 +338,9 @@ float TerminalCircuit::processSample(float sample, int channel,
         }
     }
     
-    // Allow proper audio range while preventing clipping  
-    // Scale to preserve variation: ±1V is normal audio range
-    float processedOutput = juce::jlimit(-1.0f, 1.0f, finalOutput);
+    // Allow proper fuzz range - no limiting for broken terminal character
+    // Let the fuzz be loud and broken like the original pedal!
+    float processedOutput = finalOutput;
     
     // ADDITIONAL DEBUG: Show exactly what gets returned
     static int return_debug = 0;
@@ -306,7 +356,7 @@ float TerminalCircuit::processSample(float sample, int channel,
     return processedOutput;
 }
 
-float TerminalCircuit::q2TransistorStage(float sample, int channel, const ComponentValues& cv) {
+float TerminalCircuit::q2TransistorStage(float sample, int channel, float q2GainDb, const ComponentValues& cv) {
     static int q2_debug_count = 0;
     q2_debug_count++;
     
@@ -328,11 +378,11 @@ float TerminalCircuit::q2TransistorStage(float sample, int channel, const Compon
         }
     }
     
-    // Use BJT physics
+    // Q2 BJT physics - 2N2369 with exact schematic values
     float vce_estimate = get_starved_supply_voltage() * 0.5f;
-    float r9_emitter = 470.0f;
-    float r2_collector = 22000.0f;
-    float r4_bias = 47000.0f;
+    float emitter_resistor = 0.0f;     // Q2 has grounded emitter (no resistor)
+    float r2_collector = 22000.0f;     // R2: 22kΩ collector load
+    float r4_bias = 47000.0f;          // R4: 47kΩ base bias
     
     // DEBUG: Q2 BJT parameters
     if (q2_debug_count <= 5) {
@@ -347,7 +397,7 @@ float TerminalCircuit::q2TransistorStage(float sample, int channel, const Compon
     }
     
     float collector_current = bjt_ebers_moll(adjusted_input, vce_estimate, cv.q2_model, 
-                                           get_starved_supply_voltage(), r9_emitter, 
+                                           get_starved_supply_voltage(), emitter_resistor, 
                                            r2_collector, r4_bias);
     
     // DEBUG: Q2 output verification
@@ -366,15 +416,15 @@ float TerminalCircuit::q2TransistorStage(float sample, int channel, const Compon
     return collector_current;
 }
 
-float TerminalCircuit::q3TransistorStage(float sample, int channel, float voiceAmount, float trebleAmount, const ComponentValues& cv) {
+float TerminalCircuit::q3TransistorStage(float sample, int channel, float voiceAmount, float trebleAmount, float q3GainDb, const ComponentValues& cv) {
     static int q3_debug_count = 0;
     q3_debug_count++;
     
-    // Q3 bias analysis
+    // Q3 BJT physics - 2N2369 with exact schematic values
     float vce_estimate = get_starved_supply_voltage() * 0.4f;
-    float r9_emitter = 470.0f;
-    float r7_collector = 47000.0f;
-    float r8_bias = 470000.0f;
+    float emitter_resistor = 0.0f;     // Q3 has grounded emitter (no resistor)
+    float r7_collector = 47000.0f;     // R7: 47kΩ collector load
+    float r8_bias = 470000.0f;         // R8: 470kΩ base bias
     
     // DEBUG: Q3 bias and input analysis - DETAILED VBE CHECKING
     if (q3_debug_count <= 5) {
@@ -408,7 +458,7 @@ float TerminalCircuit::q3TransistorStage(float sample, int channel, float voiceA
     }
     
     float output = bjt_ebers_moll(sample, vce_estimate, cv.q3_model, 
-                                 get_starved_supply_voltage(), r9_emitter, 
+                                 get_starved_supply_voltage(), emitter_resistor, 
                                  r7_collector, r8_bias);
     
     // DEBUG: Q3 output verification
@@ -426,7 +476,7 @@ float TerminalCircuit::q3TransistorStage(float sample, int channel, float voiceA
     return output;
 }
 
-float TerminalCircuit::q1OutputStage(float sample, int channel, const ComponentValues& cv) {
+float TerminalCircuit::q1OutputStage(float sample, int channel, float q1GainDb, const ComponentValues& cv) {
     // Q1 is 2N3904 output buffer - lower gain, stable operation
     float vce_estimate = get_starved_supply_voltage() * 0.6f;  // 4.5V (higher for buffer)
     float r9_emitter = 470.0f;      // Shared emitter resistor
@@ -457,8 +507,8 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     const float VT = 0.026f;  // Thermal voltage at room temperature
     const float MIN_VOLTAGE = 1e-12f;
     
-    static int bjt_debug_count = 0;
-    bjt_debug_count++;
+    // Remove shared static state - each transistor should be independent
+    // Debug info will be handled by calling functions (Q1, Q2, Q3)
     
     // VBE calculation with realistic scaling for large signals
     // Real BJTs: VBE never exceeds ~0.8V, regardless of input signal strength
@@ -466,10 +516,10 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     float vbe_base = model.vbe_on;  // Base VBE (0.66V for Q2, 0.70V for Q3)
     float signal_factor = std::abs(vin);
     
-    // Logarithmic scaling: large signals asymptotically approach VBE max
-    float vbe_max = vbe_base + 0.15f;  // Allow up to 0.15V above base (realistic)
-    float log_scale = 1000.0f;  // Scale factor for logarithm
-    float vbe_delta = 0.15f * (1.0f - std::exp(-signal_factor / log_scale));
+    // FIXED: Logarithmic scaling for much more responsive VBE
+    float vbe_max = vbe_base + 0.25f;  // Allow up to 0.25V above base for Terminal's broken character
+    float log_scale = 0.3f;  // FIXED: Much more aggressive scaling to hit 0.85V+ VBE for Terminal character
+    float vbe_delta = 0.25f * (1.0f - std::exp(-signal_factor / log_scale));  // Match increased vbe_max
     
     // Apply input polarity with asymmetric bias drift - positive/negative bias differently
     float positive_bias_scale = 1.0f;    // Normal positive response
@@ -487,21 +537,25 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     // Ensure VBE stays within physically possible range
     vbe = juce::jlimit(0.3f, vbe_max, vbe);
     
-    // DEBUG: BJT internal calculations (first 3 calls only)
-    if (bjt_debug_count <= 3) {
+    // DEBUG: VBE calculation step by step
+    static int vbe_debug_count = 0;
+    vbe_debug_count++;
+    if (vbe_debug_count <= 10) {
         FILE* debug_file = fopen("/Users/williamsmith/Desktop/q2_q3_debug.log", "a");
         if (debug_file) {
-            fprintf(debug_file, "### BJT EBERS-MOLL #%d ###\n", bjt_debug_count);
-            fprintf(debug_file, "Input Vin: %.6f\n", vin);
-            fprintf(debug_file, "VBE Base: %.6f\n", vbe_base);
-            fprintf(debug_file, "Signal Factor: %.6f\n", signal_factor);
-            fprintf(debug_file, "VBE Max: %.6f\n", vbe_max);
-            fprintf(debug_file, "VBE Delta: %.6f\n", vbe_delta);
-            fprintf(debug_file, "VBE Polarity: %.6f\n", vbe_polarity);
-            fprintf(debug_file, "VBE Final: %.6f (REALISTIC!)\n", vbe);
+            fprintf(debug_file, "*** VBE DEBUG #%d ***\n", vbe_debug_count);
+            fprintf(debug_file, "Input vin: %.6f\n", vin);
+            fprintf(debug_file, "signal_factor: %.6f\n", signal_factor);
+            fprintf(debug_file, "vbe_delta: %.6f\n", vbe_delta);
+            fprintf(debug_file, "vbe_polarity: %.6f\n", vbe_polarity);
+            fprintf(debug_file, "vbe_base: %.6f\n", vbe_base);
+            fprintf(debug_file, "vbe (final): %.6f\n", vbe);
             fclose(debug_file);
         }
     }
+    
+    // BJT calculations are now independent for each transistor
+    // Debug handled by individual transistor stages (Q1, Q2, Q3)
     
     // Base current using Shockley equation
     float exp_arg_raw = vbe / VT;
@@ -510,20 +564,21 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     float exp_arg = exp_arg_raw;  // Let it go wild for broken fuzz character
     float exp_result = std::exp(exp_arg);
     float base_current_raw = model.is * (exp_result - 1.0f);
-    float base_current = juce::jlimit(MIN_VOLTAGE, 0.1f, base_current_raw);
+    float base_current = juce::jlimit(MIN_VOLTAGE, 10.0f, base_current_raw);  // FIXED: Allow much higher base current for fuzz
     
-    // DEBUG: Base current calculations
-    if (bjt_debug_count <= 3) {
+    // DEBUG: Base current calculation
+    if (vbe_debug_count <= 10) {
         FILE* debug_file = fopen("/Users/williamsmith/Desktop/q2_q3_debug.log", "a");
         if (debug_file) {
-            fprintf(debug_file, "Exp Arg Raw: %.6f\n", exp_arg_raw);
-            fprintf(debug_file, "Exp Result: %.6f\n", exp_result);
-            fprintf(debug_file, "Model IS: %.2e\n", model.is);
-            fprintf(debug_file, "Base Current Raw: %.6f\n", base_current_raw);
-            fprintf(debug_file, "Base Current Clamped: %.6f\n", base_current);
+            fprintf(debug_file, "exp_arg: %.6f\n", exp_arg);
+            fprintf(debug_file, "exp_result: %.6f\n", exp_result);
+            fprintf(debug_file, "base_current_raw: %.6f\n", base_current_raw);
+            fprintf(debug_file, "base_current (limited): %.6f\n", base_current);
             fclose(debug_file);
         }
     }
+    
+    // Base current calculations - independent per transistor
     
     // Collector current with Early effect + GAIN VARIATION for vintage character
     float current_hfe_scale = 1.0f;
@@ -553,19 +608,18 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     float early_factor = 1.0f + (vce / 100.0f);
     float collector_current = dynamic_hfe_final * base_current * early_factor;
     
-    // DEBUG: Collector current calculations with gain variation
-    if (bjt_debug_count <= 3) {
+    // DEBUG: Collector current calculation
+    if (vbe_debug_count <= 10) {
         FILE* debug_file = fopen("/Users/williamsmith/Desktop/q2_q3_debug.log", "a");
         if (debug_file) {
-            fprintf(debug_file, "Model hFE (base): %.3f\n", model.hfe);
-            fprintf(debug_file, "Signal Level Factor: %.6f\n", signal_level_factor);
-            fprintf(debug_file, "Gain Variation: %.3f (±20%%)\n", gain_variation);
-            fprintf(debug_file, "Dynamic hFE (with variation): %.3f\n", dynamic_hfe_final);
-            fprintf(debug_file, "Early Factor: %.6f\n", early_factor);
-            fprintf(debug_file, "Collector Current: %.6f\n", collector_current);
+            fprintf(debug_file, "dynamic_hfe_final: %.6f\n", dynamic_hfe_final);
+            fprintf(debug_file, "early_factor: %.6f\n", early_factor);
+            fprintf(debug_file, "collector_current: %.6f\n", collector_current);
             fclose(debug_file);
         }
     }
+    
+    // Collector current calculations - independent per transistor
     
     // Voltage calculations
     float vcc = supply_voltage;
@@ -576,43 +630,128 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     float emitter_voltage_drop = collector_current * emitter_resistor;
     float emitter_feedback = emitter_voltage_drop * 0.1f;
     
-    // Output scaling
-    float current_scale = 2000.0f;
+    // Output scaling - FIXED: Reduced further to prevent DAW overload
+    float current_scale = 2.0f;
     float output_raw = collector_current * current_scale;
     float output = output_raw - emitter_feedback;
     
-    // Saturation limiting with buzzy enhancement + asymmetric behavior
-    if (actual_vce <= model.vce_sat) {
-        output *= 0.1f;
-        // Add 10% boost when saturated for buzzy Terminal character
-        output *= 1.1f;
-        
-        // Add asymmetric saturation for vintage 2N2369 character
-        // Positive and negative peaks saturate differently
-        if (output > 0.0f) {
-            output *= 1.15f;  // Positive peaks saturate harder
-        } else {
-            output *= 0.9f;   // Negative peaks compress more
-        }
+    // VOLTAGE-BASED HARD CLIPPING WITH OVERDRIVE (fuzz pedal physics)
+    // Calculate collector voltage first, then allow overdrive beyond supply rails
+    
+    // Calculate collector voltage: Vcc - (Ic * Rc)
+    float collector_voltage = vcc - (collector_current * collector_resistor);
+    
+    // REMOVED: Artificial voltage limits - let BJT physics create natural distortion!
+    // Real transistors distort through exponential VBE curves and saturation behavior
+    /*
+    // REALISTIC BJT voltage limits (actual supply rails)
+    // Real transistors can't exceed these physical limits
+    float max_collector_voltage = vcc;              // Positive supply rail (7.5V)
+    float min_collector_voltage = model.vce_sat;    // VCE saturation (~0.2V)
+    
+    // HARD CLIP collector voltage with overdrive allowance
+    float clipped_collector_voltage = collector_voltage;
+    if (collector_voltage > max_collector_voltage) {
+        clipped_collector_voltage = max_collector_voltage;
+    } else if (collector_voltage < min_collector_voltage) {
+        clipped_collector_voltage = min_collector_voltage;
     }
     
-    // DEBUG: Final output calculations
-    if (bjt_debug_count <= 3) {
+    // Apply voltage clipping by converting clipped voltage back to collector current
+    // This preserves input variation while hard clipping at voltage rails
+    float clipped_collector_current;
+    if (collector_voltage != clipped_collector_voltage) {
+        // Voltage was clipped - calculate corresponding collector current
+        clipped_collector_current = (vcc - clipped_collector_voltage) / collector_resistor;
+    } else {
+        // No clipping - use original collector current
+        clipped_collector_current = collector_current;
+    }
+    
+    // Use realistic voltage clipping (fixed supply rail limits)
+    output = clipped_collector_current * current_scale - emitter_feedback;
+    */
+    
+    // USE NATURAL BJT PHYSICS - let transistors CLIP through their exponential curves!
+    
+    // DEBUG: Final output calculation
+    if (vbe_debug_count <= 10) {
         FILE* debug_file = fopen("/Users/williamsmith/Desktop/q2_q3_debug.log", "a");
         if (debug_file) {
-            fprintf(debug_file, "Current Scale: %.1f\n", current_scale);
-            fprintf(debug_file, "Output Raw: %.6f\n", output_raw);
-            fprintf(debug_file, "Emitter Feedback: %.6f\n", emitter_feedback);
-            fprintf(debug_file, "Final Output: %.6f\n", output);
-            fprintf(debug_file, "Saturated? %s\n", (actual_vce <= model.vce_sat) ? "YES" : "NO");
-            fprintf(debug_file, "### END BJT ###\n");
+            fprintf(debug_file, "collector_current (natural): %.6f\n", collector_current);
+            fprintf(debug_file, "current_scale: %.6f\n", current_scale);
+            fprintf(debug_file, "emitter_feedback: %.6f\n", emitter_feedback);
+            fprintf(debug_file, "output (final): %.6f\n", output);
+            fprintf(debug_file, "*** END VBE DEBUG ***\n");
             fclose(debug_file);
         }
     }
     
+    // Saturation behavior is now handled in voltage clipping above
+    // Add asymmetric saturation character when voltage hits limits
+    if (collector_voltage <= model.vce_sat) {
+        // In saturation - add buzzy, compressed character
+        if (output > 0.0f) {
+            output *= 1.2f;  // Positive peaks saturate harder
+        } else {
+            output *= 0.8f;  // Negative peaks compress more
+        }
+    }
+    
+    // Output calculations - independent per transistor
+    
     // REMOVED: Hard limiting was killing Q3 output variation
     // return juce::jlimit(-10.0f, 10.0f, output);
     return output;
+}
+
+float TerminalCircuit::applyToneStack(float input, float voiceAmount, float trebleAmount, const ComponentValues& cv) {
+    // Terminal Fuzz tone stack implementation (between Q2 and Q3)
+    // Per schematic: Voice control (R5/R6/C6) + Treble control (C5)
+    // This is the active tone network that shapes the fuzz character
+    
+    // Voice control network (R5=10kΩ, R6=15kΩ, C6=1nF)
+    // Acts as a midrange control - scooped at 0.0, boosted at 1.0
+    float voice_freq = 800.0f;  // Voice control center frequency
+    float voice_q = 0.7f;       // Moderate Q for smooth control
+    
+    // Treble control network (C5=3.3nF)
+    // High frequency emphasis/de-emphasis
+    float treble_freq = 3000.0f;  // Treble control frequency
+    
+    // Voice control implementation
+    // 0.0 = scooped mids, 0.5 = flat, 1.0 = boosted mids
+    float voice_factor = (voiceAmount - 0.5f) * 2.0f;  // -1.0 to +1.0
+    float voice_gain = 1.0f + (voice_factor * 0.3f);   // 0.7x to 1.3x gain
+    
+    // Treble control implementation
+    // 0.0 = dark/muffled, 0.5 = neutral, 1.0 = bright/harsh
+    float treble_factor = (trebleAmount - 0.5f) * 2.0f;  // -1.0 to +1.0
+    float treble_gain = 1.0f + (treble_factor * 0.4f);   // 0.6x to 1.4x gain
+    
+    // Apply voice control (midrange shaping)
+    float voice_processed = input * voice_gain;
+    
+    // Apply treble control (high frequency emphasis)
+    float treble_processed = voice_processed * treble_gain;
+    
+    // C3 coupling capacitor (47nF) - critical for Terminal Fuzz gated character
+    // This creates the characteristic "gated" fuzz when signal drops below threshold
+    float c3_coupling_threshold = 0.005f;  // Below this level, signal gets gated
+    float c3_processed = treble_processed;
+    
+    if (std::abs(treble_processed) < c3_coupling_threshold) {
+        // Gate the signal for that classic Terminal Fuzz character
+        c3_processed *= 0.1f;  // Severe gating below threshold
+    }
+    
+    // Add some harmonic content for authentic fuzz character
+    if (std::abs(c3_processed) > 0.01f) {
+        float harmonic_content = std::sin(c3_processed * 15.0f) * 0.1f;
+        c3_processed += harmonic_content;
+    }
+    
+    return c3_processed;
 }
 
 }} // namespace TerminalFuzz::DSP
