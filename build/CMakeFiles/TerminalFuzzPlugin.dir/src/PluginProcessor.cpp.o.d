@@ -1582,6 +1582,5 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.o: \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/Common.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/TerminalCircuit.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginEditor.h \
-  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FrontPanelComponent.h \
-  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/ImageKnobComponent.h \
-  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PhysicsPanelComponent.h
+  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PhysicsPanelComponent.h \
+  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/ImageKnobComponent.h

@@ -249,9 +249,9 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
     // Update parameters
     updateParameters();
 
-    // Process through Terminal circuit with manual transistor gains and bypass controls
-    terminalCircuit_.processBlock(buffer, inputGainDb_, fuzzAmount_, voiceAmount_, 
-                                 trebleAmount_, levelAmount_, q1ManualGain_, q2ManualGain_, q3ManualGain_,
+    // Process through Terminal circuit with manual transistor gains and bypass controls (tone stack removed)
+    terminalCircuit_.processBlock(buffer, inputGainDb_, fuzzAmount_, levelAmount_, 
+                                 q1ManualGain_, q2ManualGain_, q3ManualGain_,
                                  q1Bypass_, q2Bypass_, q3Bypass_, componentValues_);
     
     // FIXED: Use actual circuit output (not forced test signal)

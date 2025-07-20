@@ -29,6 +29,8 @@ public:
     
     // Callbacks
     std::function<void(float)> onValueChange;
+    std::function<void()> onMouseEnter;
+    std::function<void()> onMouseExit;
 
 private:
     juce::Image knobImage;

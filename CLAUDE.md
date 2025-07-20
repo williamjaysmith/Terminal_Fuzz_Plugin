@@ -8,14 +8,14 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 
 ### Complete Component List
 
-**Resistors:**
+\*\_Resistors:\_ye
 
 - R1: 2.2MΩ (input bias resistor)
 - R2: 22kΩ (Q2 collector load resistor)
 - R3: 1MΩ (coupling resistor between Q2 and Q3)
 - R4: 47kΩ (Q2 base bias resistor)
-- R5: 10kΩ (voice control network resistor)
-- R6: 15kΩ (voice control network resistor)
+  <!-- TONE STACK REMOVED - R5: 10kΩ (voice control network resistor) -->
+  <!-- TONE STACK REMOVED - R6: 15kΩ (voice control network resistor) -->
 - R7: 47kΩ (Q3 collector load resistor)
 - R8: 470kΩ (Q3 base bias resistor)
 - R9: 470Ω (Q1 emitter resistor)
@@ -29,9 +29,9 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 - C1: 100nF (input AC coupling)
 - C2: 1nF (frequency shaping)
 - C3: 47nF\* (critical Q2→Q3 coupling - affects fuzz character)
-- C4: 2.2nF (tone stack frequency shaping)
-- C5: 3.3nF (treble control network)
-- C6: 1nF (voice control network)
+  <!-- TONE STACK REMOVED - C4: 2.2nF (tone stack frequency shaping) -->
+  <!-- TONE STACK REMOVED - C5: 3.3nF (treble control network) -->
+  <!-- TONE STACK REMOVED - C6: 1nF (voice control network) -->
 - C7: 100nF (additional coupling/filtering)
 
 **Electrolytic Capacitors:**
@@ -49,8 +49,8 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 **Controls:**
 
 - Fuzz: 100kΩ B (controls input to Q2)
-- Voice: 10kΩ B (midrange control)
-- Treble: 50kΩ B (high frequency control)
+  <!-- TONE STACK REMOVED - Voice: 10kΩ B (midrange control) -->
+  <!-- TONE STACK REMOVED - Treble: 50kΩ B (high frequency control) -->
 - Level: 50kΩ B (output volume)
 
 **Diodes:**
@@ -73,11 +73,11 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 1. **Input Jack** → R13 (1MΩ to ground) → C1 (100nF AC coupling)
 2. **Fuzz Control** → 100kΩ B pot attenuates signal level into Q2 base
 3. **Q2 Fuzz Stage** → 2N2369 NPN (R4=47kΩ base bias, R2=22kΩ collector load)
-4. **C3 Coupling** → 47nF capacitor couples Q2 collector to R3 (1MΩ)
-5. **Tone Stack** → Voice (R5/R6/C6) + Treble (C5) active controls
-6. **Q3 Gain Stage** → 2N2369 NPN (R8=470kΩ base bias, R7=47kΩ collector load)
-7. **Q1 Output Buffer** → 2N3904 NPN (R10=10kΩ base bias, R11=100kΩ collector, R9=470Ω emitter)
-8. **Output Coupling** → C8/C9 (10μF each) → Level Control (50kΩ B) → Output Jack
+4. **C3 Coupling** → 47nF capacitor couples Q2 collector to R3 (1MΩ) directly to Q3
+<!-- TONE STACK REMOVED - 5. **Tone Stack** → Voice (R5/R6/C6) + Treble (C5) active controls -->
+5. **Q3 Gain Stage** → 2N2369 NPN (R8=470kΩ base bias, R7=47kΩ collector load)
+6. **Q1 Output Buffer** → 2N3904 NPN (R10=10kΩ base bias, R11=100kΩ collector, R9=470Ω emitter)
+7. **Output Coupling** → C8/C9 (10μF each) → Level Control (50kΩ B) → Output Jack
 
 ### Power Circuit
 
@@ -86,14 +86,14 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 ### Key Circuit Characteristics
 
 - **Base Design**: Modified Shin-Ei Companion FY-2
-- **Topology**: 3-transistor fuzz with tone stack between gain stages
+- **Topology**: 3-transistor fuzz with direct Q2→Q3 coupling (tone stack removed)
 - **Critical Component**: C3 value affects character (47nF = original)
 - **Power Supply**: 9V with protection diode and filtering
 
 ## Project Goals
 
 1. **FAITHFUL CIRCUIT RECREATION - MOST IMPORTANT**: Component-by-component DSP implementation with ALL interactions
-2. **Front Panel**: Standard Fuzz, Voice, Treble, Level controls
+2. **Front Panel**: Simplified Fuzz and Level controls (tone stack removed for pure fuzz character)
 3. **Documentation**: Detailed explanations of each component's function
 
 ## CRITICAL DESIGN PHILOSOPHY - NEVER FORGET

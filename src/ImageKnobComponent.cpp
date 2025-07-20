@@ -79,11 +79,15 @@ void ImageKnobComponent::mouseMove(const juce::MouseEvent& event)
 void ImageKnobComponent::mouseEnter(const juce::MouseEvent& event)
 {
     isHovering = true;
+    if (onMouseEnter)
+        onMouseEnter();
 }
 
 void ImageKnobComponent::mouseExit(const juce::MouseEvent& event)
 {
     isHovering = false;
+    if (onMouseExit)
+        onMouseExit();
 }
 
 void ImageKnobComponent::mouseUp(const juce::MouseEvent& event)

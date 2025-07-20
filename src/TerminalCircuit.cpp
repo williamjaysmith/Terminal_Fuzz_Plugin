@@ -17,8 +17,7 @@ void TerminalCircuit::prepare(double sampleRate, int samplesPerBlock) {
 }
 
 void TerminalCircuit::processBlock(juce::AudioBuffer<float>& buffer,
-                                  float inputGainDb, float fuzzAmount, float voiceAmount, 
-                                  float trebleAmount, float levelAmount,
+                                  float inputGainDb, float fuzzAmount, float levelAmount,
                                   float q1GainDb, float q2GainDb, float q3GainDb,
                                   bool q1Bypass, bool q2Bypass, bool q3Bypass,
                                   const ComponentValues& componentValues) {
@@ -29,8 +28,6 @@ void TerminalCircuit::processBlock(juce::AudioBuffer<float>& buffer,
     float inputGainLinear = juce::Decibels::decibelsToGain(inputGainDb);
     
     fuzzAmount = juce::jlimit(0.0f, 1.0f, fuzzAmount);
-    voiceAmount = juce::jlimit(0.0f, 1.0f, voiceAmount);
-    trebleAmount = juce::jlimit(0.0f, 1.0f, trebleAmount);
     levelAmount = juce::jlimit(0.0f, 1.0f, levelAmount);
 
     for (int channel = 0; channel < numChannels && channel < Constants::MAX_CHANNELS; ++channel) {
@@ -67,7 +64,7 @@ void TerminalCircuit::processBlock(juce::AudioBuffer<float>& buffer,
             
             float processedSample = processSample(
                 inputSample, channel,
-                inputGainDb, fuzzAmount, voiceAmount, trebleAmount, levelAmount,
+                inputGainDb, fuzzAmount, levelAmount,
                 q1GainDb, q2GainDb, q3GainDb,
                 q1Bypass, q2Bypass, q3Bypass,
                 componentValues
@@ -183,8 +180,7 @@ void TerminalCircuit::reset() {
 }
 
 float TerminalCircuit::processSample(float sample, int channel,
-                                   float inputGainDb, float fuzzAmount, float voiceAmount,
-                                   float trebleAmount, float levelAmount,
+                                   float inputGainDb, float fuzzAmount, float levelAmount,
                                    float q1GainDb, float q2GainDb, float q3GainDb,
                                    bool q1Bypass, bool q2Bypass, bool q3Bypass,
                                    const ComponentValues& cv) {
@@ -242,8 +238,7 @@ float TerminalCircuit::processSample(float sample, int channel,
         }
     }
     
-    // TONE STACK BYPASSED - Focus on getting distortion right first
-    // float tone_processed = applyToneStack(q2Output, voiceAmount, trebleAmount, cv);
+    // TONE STACK COMPLETELY REMOVED - Direct Q2→Q3 coupling for pure fuzz character
     
     // Q2→Q3 Gain Buffer (realistic intermediate stage)
     float q2_to_q3_gain = 2.0f;   // Reduced from 15x to 2x to prevent Q3 overload
@@ -264,7 +259,7 @@ float TerminalCircuit::processSample(float sample, int channel,
     if (q3Bypass) {
         q3Output = q3Input;  // Bypass Q3 - pass signal through unchanged
     } else {
-        q3Output = q3TransistorStage(q3Input, channel, voiceAmount, trebleAmount, q3GainDb, cv);
+        q3Output = q3TransistorStage(q3Input, channel, q3GainDb, cv);
     }
     
     // Q3→Q1 Buffer (output stage coupling)
@@ -424,7 +419,7 @@ float TerminalCircuit::q2TransistorStage(float sample, int channel, float q2Gain
     return collector_current;
 }
 
-float TerminalCircuit::q3TransistorStage(float sample, int channel, float voiceAmount, float trebleAmount, float q3GainDb, const ComponentValues& cv) {
+float TerminalCircuit::q3TransistorStage(float sample, int channel, float q3GainDb, const ComponentValues& cv) {
     static int q3_debug_count = 0;
     q3_debug_count++;
     
@@ -714,54 +709,7 @@ float TerminalCircuit::bjt_ebers_moll(float vin, float vce, const TransistorMode
     return output;
 }
 
-float TerminalCircuit::applyToneStack(float input, float voiceAmount, float trebleAmount, const ComponentValues& cv) {
-    // Terminal Fuzz tone stack implementation (between Q2 and Q3)
-    // Per schematic: Voice control (R5/R6/C6) + Treble control (C5)
-    // This is the active tone network that shapes the fuzz character
-    
-    // Voice control network (R5=10kΩ, R6=15kΩ, C6=1nF)
-    // Acts as a midrange control - scooped at 0.0, boosted at 1.0
-    float voice_freq = 800.0f;  // Voice control center frequency
-    float voice_q = 0.7f;       // Moderate Q for smooth control
-    
-    // Treble control network (C5=3.3nF)
-    // High frequency emphasis/de-emphasis
-    float treble_freq = 3000.0f;  // Treble control frequency
-    
-    // Voice control implementation
-    // 0.0 = scooped mids, 0.5 = flat, 1.0 = boosted mids
-    float voice_factor = (voiceAmount - 0.5f) * 2.0f;  // -1.0 to +1.0
-    float voice_gain = 1.0f + (voice_factor * 0.3f);   // 0.7x to 1.3x gain
-    
-    // Treble control implementation
-    // 0.0 = dark/muffled, 0.5 = neutral, 1.0 = bright/harsh
-    float treble_factor = (trebleAmount - 0.5f) * 2.0f;  // -1.0 to +1.0
-    float treble_gain = 1.0f + (treble_factor * 0.4f);   // 0.6x to 1.4x gain
-    
-    // Apply voice control (midrange shaping)
-    float voice_processed = input * voice_gain;
-    
-    // Apply treble control (high frequency emphasis)
-    float treble_processed = voice_processed * treble_gain;
-    
-    // C3 coupling capacitor (47nF) - critical for Terminal Fuzz gated character
-    // This creates the characteristic "gated" fuzz when signal drops below threshold
-    float c3_coupling_threshold = 0.005f;  // Below this level, signal gets gated
-    float c3_processed = treble_processed;
-    
-    if (std::abs(treble_processed) < c3_coupling_threshold) {
-        // Gate the signal for that classic Terminal Fuzz character
-        c3_processed *= 0.1f;  // Severe gating below threshold
-    }
-    
-    // Add some harmonic content for authentic fuzz character
-    if (std::abs(c3_processed) > 0.01f) {
-        float harmonic_content = std::sin(c3_processed * 15.0f) * 0.1f;
-        c3_processed += harmonic_content;
-    }
-    
-    return c3_processed;
-}
+// TONE STACK FUNCTION REMOVED - Direct Q2→Q3 coupling for pure fuzz character
 
 float TerminalCircuit::applyCouplingCapacitor(float input, float capacitance, float cutoff_frequency, int channel) {
     // Simple first-order high-pass filter implementation for coupling capacitors

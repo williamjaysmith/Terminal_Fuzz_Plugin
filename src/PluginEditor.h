@@ -2,7 +2,6 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "FrontPanelComponent.h"
 #include "PhysicsPanelComponent.h"
 #include "ImageKnobComponent.h"
 
@@ -44,17 +43,44 @@ private:
      * @brief Set up callbacks for main knobs
      */
     void setupMainKnobCallbacks();
+    
+    /**
+     * @brief Update dynamic info display
+     */
+    void updateDynamicInfo(const juce::String& text);
+    void clearDynamicInfo();
+    
+    /**
+     * @brief Update LED input level indicator
+     */
+    void updateInputLevelMeter(float inputLevelDb);
 
     // Reference to the processor
     PluginProcessor& audioProcessor_;
 
     // GUI components
     juce::Image enclosureImage_;
-    std::unique_ptr<GUI::FrontPanelComponent> frontPanel_;
     std::unique_ptr<GUI::PhysicsPanelComponent> physicsPanel_;
     
     // Panel toggle button
     std::unique_ptr<juce::TextButton> physicsPanelButton_;
+    
+    // Dynamic info display (shows knob values on hover/interaction)
+    std::unique_ptr<juce::Label> dynamicInfoLabel_;
+    
+    // LED input level indicator (image-based)
+    juce::Image yellowLedImage_;
+    juce::Image greenLedImage_;
+    juce::Image redLedImage_;
+    juce::Rectangle<float> ledBounds_;
+    
+    // LED state tracking
+    float redLEDBrightness_ = 0.0f;
+    float greenLEDBrightness_ = 0.0f;
+    float yellowLEDBrightness_ = 0.0f;
+    float redLEDTarget_ = 0.0f;
+    float greenLEDTarget_ = 0.0f;
+    float yellowLEDTarget_ = 0.0f;
     
     // All knobs positioned directly in plugin editor (no container constraints)
     std::unique_ptr<ImageKnobComponent> inputGainKnob_;
