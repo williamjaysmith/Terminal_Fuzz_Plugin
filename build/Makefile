@@ -1026,6 +1026,30 @@ src/FrontPanelComponent.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.s
 .PHONY : src/FrontPanelComponent.cpp.s
 
+src/ImageKnobComponent.o: src/ImageKnobComponent.cpp.o
+.PHONY : src/ImageKnobComponent.o
+
+# target to build an object file
+src/ImageKnobComponent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o
+.PHONY : src/ImageKnobComponent.cpp.o
+
+src/ImageKnobComponent.i: src/ImageKnobComponent.cpp.i
+.PHONY : src/ImageKnobComponent.i
+
+# target to preprocess a source file
+src/ImageKnobComponent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.i
+.PHONY : src/ImageKnobComponent.cpp.i
+
+src/ImageKnobComponent.s: src/ImageKnobComponent.cpp.s
+.PHONY : src/ImageKnobComponent.s
+
+# target to generate assembly for a file
+src/ImageKnobComponent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.s
+.PHONY : src/ImageKnobComponent.cpp.s
+
 src/PhysicsPanelComponent.o: src/PhysicsPanelComponent.cpp.o
 .PHONY : src/PhysicsPanelComponent.o
 
@@ -1122,30 +1146,6 @@ src/PluginProcessor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.s
 .PHONY : src/PluginProcessor.cpp.s
 
-src/SteelBackgroundComponent.o: src/SteelBackgroundComponent.cpp.o
-.PHONY : src/SteelBackgroundComponent.o
-
-# target to build an object file
-src/SteelBackgroundComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/SteelBackgroundComponent.cpp.o
-.PHONY : src/SteelBackgroundComponent.cpp.o
-
-src/SteelBackgroundComponent.i: src/SteelBackgroundComponent.cpp.i
-.PHONY : src/SteelBackgroundComponent.i
-
-# target to preprocess a source file
-src/SteelBackgroundComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/SteelBackgroundComponent.cpp.i
-.PHONY : src/SteelBackgroundComponent.cpp.i
-
-src/SteelBackgroundComponent.s: src/SteelBackgroundComponent.cpp.s
-.PHONY : src/SteelBackgroundComponent.s
-
-# target to generate assembly for a file
-src/SteelBackgroundComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/SteelBackgroundComponent.cpp.s
-.PHONY : src/SteelBackgroundComponent.cpp.s
-
 src/TerminalCircuit.o: src/TerminalCircuit.cpp.o
 .PHONY : src/TerminalCircuit.o
 
@@ -1169,6 +1169,30 @@ src/TerminalCircuit.s: src/TerminalCircuit.cpp.s
 src/TerminalCircuit.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.s
 .PHONY : src/TerminalCircuit.cpp.s
+
+src/VintageKnobComponent.o: src/VintageKnobComponent.cpp.o
+.PHONY : src/VintageKnobComponent.o
+
+# target to build an object file
+src/VintageKnobComponent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o
+.PHONY : src/VintageKnobComponent.cpp.o
+
+src/VintageKnobComponent.i: src/VintageKnobComponent.cpp.i
+.PHONY : src/VintageKnobComponent.i
+
+# target to preprocess a source file
+src/VintageKnobComponent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.i
+.PHONY : src/VintageKnobComponent.cpp.i
+
+src/VintageKnobComponent.s: src/VintageKnobComponent.cpp.s
+.PHONY : src/VintageKnobComponent.s
+
+# target to generate assembly for a file
+src/VintageKnobComponent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.s
+.PHONY : src/VintageKnobComponent.cpp.s
 
 # Help Target
 help:
@@ -1278,6 +1302,9 @@ help:
 	@echo "... src/FrontPanelComponent.o"
 	@echo "... src/FrontPanelComponent.i"
 	@echo "... src/FrontPanelComponent.s"
+	@echo "... src/ImageKnobComponent.o"
+	@echo "... src/ImageKnobComponent.i"
+	@echo "... src/ImageKnobComponent.s"
 	@echo "... src/PhysicsPanelComponent.o"
 	@echo "... src/PhysicsPanelComponent.i"
 	@echo "... src/PhysicsPanelComponent.s"
@@ -1290,12 +1317,12 @@ help:
 	@echo "... src/PluginProcessor.o"
 	@echo "... src/PluginProcessor.i"
 	@echo "... src/PluginProcessor.s"
-	@echo "... src/SteelBackgroundComponent.o"
-	@echo "... src/SteelBackgroundComponent.i"
-	@echo "... src/SteelBackgroundComponent.s"
 	@echo "... src/TerminalCircuit.o"
 	@echo "... src/TerminalCircuit.i"
 	@echo "... src/TerminalCircuit.s"
+	@echo "... src/VintageKnobComponent.o"
+	@echo "... src/VintageKnobComponent.i"
+	@echo "... src/VintageKnobComponent.s"
 .PHONY : help
 
 

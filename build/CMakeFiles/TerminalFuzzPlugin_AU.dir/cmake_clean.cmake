@@ -21,9 +21,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/TerminalFuzzPlugin_AU.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST2.mm.o.d"
   "CMakeFiles/TerminalFuzzPlugin_AU.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm.o"
   "CMakeFiles/TerminalFuzzPlugin_AU.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm.o.d"
+  "TerminalFuzzPlugin_artefacts/AU/Terminal Fuzz.component/Contents/MacOS/Terminal Fuzz"
+  "TerminalFuzzPlugin_artefacts/AU/Terminal Fuzz.component/Contents/MacOS/Terminal Fuzz.pdb"
   "TerminalFuzzPlugin_artefacts/JuceLibraryCode/TerminalFuzzPlugin_AU/PkgInfo"
-  "TerminalFuzzPlugin_artefacts/Release/AU/Terminal Fuzz.component/Contents/MacOS/Terminal Fuzz"
-  "TerminalFuzzPlugin_artefacts/Release/AU/Terminal Fuzz.component/Contents/MacOS/Terminal Fuzz.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

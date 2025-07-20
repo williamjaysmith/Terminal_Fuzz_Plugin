@@ -188,14 +188,29 @@ bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
 void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     juce::ignoreUnused(midiMessages);
 
-    // DEBUG: Log main processBlock calls
+    // DEBUG: Log main processBlock calls and INPUT LEVELS
     static int main_processBlock_count = 0;
     main_processBlock_count++;
-    if (main_processBlock_count <= 3) {
+    if (main_processBlock_count <= 10) {
         FILE* debug_file = fopen("/Users/williamsmith/Desktop/terminal_bjt_debug.log", "a");
         if (debug_file) {
             fprintf(debug_file, "=== MAIN PROCESSBLOCK #%d: %d channels, %d samples ===\n", 
                    main_processBlock_count, buffer.getNumChannels(), buffer.getNumSamples());
+            
+            // Check actual input levels
+            if (buffer.getNumSamples() > 0 && buffer.getNumChannels() > 0) {
+                float inputLevel = 0.0f;
+                for (int sample = 0; sample < juce::jmin(10, buffer.getNumSamples()); sample++) {
+                    float sampleValue = buffer.getSample(0, sample);
+                    inputLevel = juce::jmax(inputLevel, std::abs(sampleValue));
+                }
+                fprintf(debug_file, "INPUT SIGNAL LEVEL: %.6f\n", inputLevel);
+                if (inputLevel < 0.000001f) {
+                    fprintf(debug_file, "*** NO INPUT SIGNAL DETECTED ***\n");
+                } else {
+                    fprintf(debug_file, "*** INPUT SIGNAL PRESENT! ***\n");
+                }
+            }
             fclose(debug_file);
         }
     }

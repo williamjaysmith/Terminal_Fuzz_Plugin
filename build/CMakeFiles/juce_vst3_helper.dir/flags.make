@@ -6,7 +6,7 @@ CXX_DEFINES = -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DNDEBUG=1 -D_NDEBUG=1
 
 CXX_INCLUDES = -I/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_processors/format_types/VST3_SDK -I/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules -F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
 
-CXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++20 -arch arm64 -fobjc-arc -O3
+CXX_FLAGSarm64 = -std=gnu++20 -arch arm64 -fobjc-arc
 
-CXX_FLAGS = -O3 -DNDEBUG -std=gnu++20 -arch arm64 -fobjc-arc -O3
+CXX_FLAGS = -std=gnu++20 -arch arm64 -fobjc-arc
 

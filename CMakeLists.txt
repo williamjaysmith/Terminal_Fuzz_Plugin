@@ -22,6 +22,7 @@ endif()
 # Define the plugin target
 juce_add_plugin(TerminalFuzzPlugin
     COMPANY_NAME "Terminal Audio"
+    BUNDLE_ID "com.terminalaudio.terminalfuzz"
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
@@ -32,10 +33,42 @@ juce_add_plugin(TerminalFuzzPlugin
     PLUGIN_CODE TFuz
     FORMATS AU VST3 Standalone
     PRODUCT_NAME "Terminal Fuzz"
+    MICROPHONE_PERMISSION_ENABLED TRUE
+    MICROPHONE_PERMISSION_TEXT "Terminal Fuzz needs microphone access to process audio from your guitar/interface."
 )
 
 # Generate JuceHeader.h
 juce_generate_juce_header(TerminalFuzzPlugin)
+
+# Build AudioPluginHost for testing
+if(EXISTS external/JUCE/extras/AudioPluginHost/Source/HostStartup.cpp)
+    juce_add_gui_app(AudioPluginHost
+        PRODUCT_NAME "AudioPluginHost"
+        COMPANY_NAME "JUCE"
+        VERSION "1.0.0"
+    )
+    
+    target_sources(AudioPluginHost PRIVATE
+        external/JUCE/extras/AudioPluginHost/Source/HostStartup.cpp
+        external/JUCE/extras/AudioPluginHost/Source/Plugins/PluginGraph.cpp
+        external/JUCE/extras/AudioPluginHost/Source/Plugins/InternalPlugins.cpp
+        external/JUCE/extras/AudioPluginHost/Source/UI/MainHostWindow.cpp
+        external/JUCE/extras/AudioPluginHost/Source/UI/GraphEditorPanel.cpp
+    )
+    
+    target_link_libraries(AudioPluginHost PRIVATE
+        juce::juce_audio_devices
+        juce::juce_audio_formats  
+        juce::juce_audio_processors
+        juce::juce_audio_utils
+        juce::juce_core
+        juce::juce_data_structures
+        juce::juce_events
+        juce::juce_graphics
+        juce::juce_gui_basics
+        juce::juce_gui_extra
+    )
+endif()
 
 # Add source files
 target_sources(TerminalFuzzPlugin
@@ -52,8 +85,10 @@ target_sources(TerminalFuzzPlugin
         src/PhysicsPanelComponent.h
         src/PluginParameters.cpp
         src/PluginParameters.h
-        src/SteelBackgroundComponent.cpp
-        src/SteelBackgroundComponent.h
+        src/VintageKnobComponent.cpp
+        src/VintageKnobComponent.h
+        src/ImageKnobComponent.cpp
+        src/ImageKnobComponent.h
         src/Common.h
 )
 

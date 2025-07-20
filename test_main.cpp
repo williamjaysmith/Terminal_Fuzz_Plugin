@@ -1,5 +1,5 @@
 #include "Source/DSP/TerminalCircuitTests.cpp"
-
+bt
 int main() {
     std::cout << "Terminal Fuzz Plugin - DSP Diagnostic Tests\n";
     std::cout << "==========================================\n";

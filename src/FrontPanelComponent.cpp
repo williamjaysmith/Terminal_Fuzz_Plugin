@@ -7,66 +7,14 @@ namespace GUI {
 FrontPanelComponent::FrontPanelComponent(juce::AudioProcessorValueTreeState& parameters)
     : parameters_(parameters)
 {
-    // Create Input Gain control
-    inputGainSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
-    inputGainLabel_ = std::make_unique<juce::Label>("", "GAIN");
-    configureSlider(*inputGainSlider_, *inputGainLabel_, "GAIN");
-    inputGainAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        parameters_, PluginParameters::INPUT_GAIN_ID, *inputGainSlider_);
-    
-    // Create Fuzz control
-    fuzzSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
-    fuzzLabel_ = std::make_unique<juce::Label>("", "FUZZ");
-    configureSlider(*fuzzSlider_, *fuzzLabel_, "FUZZ");
-    fuzzAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        parameters_, PluginParameters::FUZZ_ID, *fuzzSlider_);
-    
-    // Create Voice control
-    voiceSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
-    voiceLabel_ = std::make_unique<juce::Label>("", "VOICE");
-    configureSlider(*voiceSlider_, *voiceLabel_, "VOICE");
-    voiceAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        parameters_, PluginParameters::VOICE_ID, *voiceSlider_);
-    
-    // Create Treble control
-    trebleSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
-    trebleLabel_ = std::make_unique<juce::Label>("", "TREBLE");
-    configureSlider(*trebleSlider_, *trebleLabel_, "TREBLE");
-    trebleAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        parameters_, PluginParameters::TREBLE_ID, *trebleSlider_);
-    
-    // Create Level control
-    levelSlider_ = std::make_unique<juce::Slider>(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow);
-    levelLabel_ = std::make_unique<juce::Label>("", "LEVEL");
-    configureSlider(*levelSlider_, *levelLabel_, "LEVEL");
-    levelAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        parameters_, PluginParameters::LEVEL_ID, *levelSlider_);
-    
-    // Manual transistor gain controls moved to physics panel
+    // This component now only handles LED meter - main knobs moved to PluginEditor
 }
 
 FrontPanelComponent::~FrontPanelComponent() {
 }
 
 void FrontPanelComponent::paint(juce::Graphics& g) {
-    // Draw front panel background
-    g.setColour(juce::Colour(0xff3a3a3a));
-    g.fillRoundedRectangle(getLocalBounds().toFloat(), 10.0f);
-    
-    // Draw border
-    g.setColour(juce::Colours::grey);
-    g.drawRoundedRectangle(getLocalBounds().toFloat(), 10.0f, 2.0f);
-    
-    // Draw pedal-style graphics
-    g.setColour(juce::Colour(0xff4a4a4a));
-    auto bounds = getLocalBounds();
-    
-    // Draw screw holes in corners
-    auto screwSize = 8;
-    g.fillEllipse(bounds.getX() + 10, bounds.getY() + 10, screwSize, screwSize);
-    g.fillEllipse(bounds.getRight() - 18, bounds.getY() + 10, screwSize, screwSize);
-    g.fillEllipse(bounds.getX() + 10, bounds.getBottom() - 18, screwSize, screwSize);
-    g.fillEllipse(bounds.getRight() - 18, bounds.getBottom() - 18, screwSize, screwSize);
+    // Background is now handled by the enclosure image in PluginEditor
     
     // Draw LED input level meter (top left corner)
     float ledSize = 8.0f;
@@ -99,47 +47,21 @@ void FrontPanelComponent::paint(juce::Graphics& g) {
 }
 
 void FrontPanelComponent::resized() {
-    auto bounds = getLocalBounds();
-    bounds.reduce(20, 20); // Margin from edges
+    auto bounds = getLocalBounds().toFloat();
     
-    // LED meter positioning (top left corner)
-    float ledSize = 8.0f;
-    float ledSpacing = 12.0f;
-    float ledStartX = 10.0f;
-    float ledStartY = 30.0f;
+    // Use proportional positioning based on window size to match background image
+    float windowWidth = bounds.getWidth();
+    float windowHeight = bounds.getHeight();
+    
+    // LED meter positioning (proportional to window)
+    float ledSize = windowWidth * 0.015f; // 1.5% of window width
+    float ledSpacing = windowWidth * 0.025f; // 2.5% of window width
+    float ledStartX = windowWidth * 0.02f; // 2% from left
+    float ledStartY = windowHeight * 0.08f; // 8% from top
     
     redLED_ = juce::Rectangle<float>(ledStartX, ledStartY, ledSize, ledSize);
     greenLED_ = juce::Rectangle<float>(ledStartX, ledStartY + ledSpacing, ledSize, ledSize);  
     yellowLED_ = juce::Rectangle<float>(ledStartX, ledStartY + ledSpacing * 2, ledSize, ledSize);
-    
-    // Input gain control at top center
-    auto inputGainHeight = bounds.getHeight() / 3;
-    auto inputGainWidth = bounds.getWidth() / 3;
-    auto inputGainX = bounds.getX() + (bounds.getWidth() - inputGainWidth) / 2;
-    inputGainSlider_->setBounds(inputGainX, bounds.getY(), inputGainWidth, inputGainHeight);
-    
-    // Remaining controls in 2x2 grid below
-    auto remainingBounds = bounds.removeFromBottom(bounds.getHeight() * 2 / 3);
-    auto controlWidth = remainingBounds.getWidth() / 2;
-    auto controlHeight = remainingBounds.getHeight() / 2;
-    
-    // Top row: Fuzz, Voice
-    fuzzSlider_->setBounds(remainingBounds.getX(), remainingBounds.getY(), controlWidth, controlHeight);
-    voiceSlider_->setBounds(remainingBounds.getX() + controlWidth, remainingBounds.getY(), controlWidth, controlHeight);
-    
-    // Bottom row: Treble, Level
-    trebleSlider_->setBounds(remainingBounds.getX(), remainingBounds.getY() + controlHeight, controlWidth, controlHeight);
-    levelSlider_->setBounds(remainingBounds.getX() + controlWidth, remainingBounds.getY() + controlHeight, controlWidth, controlHeight);
-    
-    // Manual transistor gain controls moved to physics panel
-    
-    // Position labels
-    auto labelHeight = 20;
-    inputGainLabel_->setBounds(inputGainSlider_->getBounds().removeFromTop(labelHeight));
-    fuzzLabel_->setBounds(fuzzSlider_->getBounds().removeFromTop(labelHeight));
-    voiceLabel_->setBounds(voiceSlider_->getBounds().removeFromTop(labelHeight));
-    trebleLabel_->setBounds(trebleSlider_->getBounds().removeFromTop(labelHeight));
-    levelLabel_->setBounds(levelSlider_->getBounds().removeFromTop(labelHeight));
 }
 
 void FrontPanelComponent::configureSlider(juce::Slider& slider, juce::Label& label, const juce::String& labelText) {
@@ -158,6 +80,21 @@ void FrontPanelComponent::configureSlider(juce::Slider& slider, juce::Label& lab
     label.setJustificationType(juce::Justification::centred);
     label.setColour(juce::Label::textColourId, juce::Colours::white);
     label.setFont(juce::Font(12.0f, juce::Font::bold));
+}
+
+void FrontPanelComponent::configureLabel(juce::Label& label, bool isValueLabel) {
+    label.setJustificationType(juce::Justification::centred);
+    if (isValueLabel) {
+        label.setFont(juce::Font(11.0f));
+        label.setColour(juce::Label::textColourId, juce::Colours::lightgrey);
+    } else {
+        label.setFont(juce::Font(12.0f, juce::Font::bold));
+        label.setColour(juce::Label::textColourId, juce::Colours::white);
+    }
+}
+
+void FrontPanelComponent::setupKnobCallbacks() {
+    // No knob callbacks needed - knobs moved to PluginEditor
 }
 
 void FrontPanelComponent::updateInputLevelMeter(float inputLevelDb) {

@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "TerminalFuzzPlugin_artefacts/Release/libTerminal Fuzz_SharedCode.a"
+  "TerminalFuzzPlugin_artefacts/libTerminal Fuzz_SharedCode.a"
 )

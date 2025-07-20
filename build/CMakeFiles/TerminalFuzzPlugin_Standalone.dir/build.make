@@ -76,9 +76,9 @@ TerminalFuzzPlugin_artefacts/JuceLibraryCode/TerminalFuzzPlugin_Standalone/PkgIn
 CMakeFiles/TerminalFuzzPlugin_Standalone.dir/codegen:
 .PHONY : CMakeFiles/TerminalFuzzPlugin_Standalone.dir/codegen
 
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/extras/Build/CMake/RecentFilesMenuTemplate.nib
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Copying OS X content TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib"
-	$(CMAKE_COMMAND) -E copy /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/extras/Build/CMake/RecentFilesMenuTemplate.nib "TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib"
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/extras/Build/CMake/RecentFilesMenuTemplate.nib
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Copying OS X content TerminalFuzzPlugin_artefacts/Standalone/Terminal Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib"
+	$(CMAKE_COMMAND) -E copy /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/extras/Build/CMake/RecentFilesMenuTemplate.nib "TerminalFuzzPlugin_artefacts/Standalone/Terminal Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib"
 
 CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp.o: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp
@@ -251,27 +251,27 @@ TerminalFuzzPlugin_Standalone_OBJECTS = \
 # External object files for target TerminalFuzzPlugin_Standalone
 TerminalFuzzPlugin_Standalone_EXTERNAL_OBJECTS =
 
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_ARA.cpp.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Unity.cpp.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX.mm.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AUv3.mm.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_LV2.mm.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST2.mm.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm.o
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/build.make
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: TerminalFuzzPlugin_artefacts/Release/libTerminal\ Fuzz_SharedCode.a
-TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable \"TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal Fuzz.app/Contents/MacOS/Terminal Fuzz\""
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_ARA.cpp.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Unity.cpp.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX.mm.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AUv3.mm.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_LV2.mm.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST2.mm.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/external/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm.o
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/build.make
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a
+TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz: CMakeFiles/TerminalFuzzPlugin_Standalone.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable \"TerminalFuzzPlugin_artefacts/Standalone/Terminal Fuzz.app/Contents/MacOS/Terminal Fuzz\""
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TerminalFuzzPlugin_Standalone.dir/link.txt --verbose=$(VERBOSE)
-	/opt/homebrew/bin/cmake -E copy /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/TerminalFuzzPlugin_artefacts/JuceLibraryCode/TerminalFuzzPlugin_Standalone/PkgInfo "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal Fuzz.app/Contents"
+	/opt/homebrew/bin/cmake -E copy /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/TerminalFuzzPlugin_artefacts/JuceLibraryCode/TerminalFuzzPlugin_Standalone/PkgInfo "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/TerminalFuzzPlugin_artefacts/Standalone/Terminal Fuzz.app/Contents"
 
 # Rule to build all files generated by this target.
-CMakeFiles/TerminalFuzzPlugin_Standalone.dir/build: TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz
-CMakeFiles/TerminalFuzzPlugin_Standalone.dir/build: TerminalFuzzPlugin_artefacts/Release/Standalone/Terminal\ Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib
+CMakeFiles/TerminalFuzzPlugin_Standalone.dir/build: TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/MacOS/Terminal\ Fuzz
+CMakeFiles/TerminalFuzzPlugin_Standalone.dir/build: TerminalFuzzPlugin_artefacts/Standalone/Terminal\ Fuzz.app/Contents/Resources/RecentFilesMenuTemplate.nib
 .PHONY : CMakeFiles/TerminalFuzzPlugin_Standalone.dir/build
 
 CMakeFiles/TerminalFuzzPlugin_Standalone.dir/clean:

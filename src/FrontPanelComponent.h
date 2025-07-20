@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "ImageKnobComponent.h"
 
 namespace TerminalFuzz {
 namespace GUI {
@@ -29,19 +30,21 @@ private:
     // Parameter state reference
     juce::AudioProcessorValueTreeState& parameters_;
     
-    // Control knobs
-    std::unique_ptr<juce::Slider> inputGainSlider_;
-    std::unique_ptr<juce::Slider> fuzzSlider_;
-    std::unique_ptr<juce::Slider> voiceSlider_;
-    std::unique_ptr<juce::Slider> trebleSlider_;
-    std::unique_ptr<juce::Slider> levelSlider_;
+    // Control knobs - all using knob1 image knobs
+    std::unique_ptr<ImageKnobComponent> fuzzKnob_;
+    std::unique_ptr<ImageKnobComponent> voiceKnob_;
+    std::unique_ptr<ImageKnobComponent> trebleKnob_;
+    std::unique_ptr<ImageKnobComponent> levelKnob_;
     
     // Labels
-    std::unique_ptr<juce::Label> inputGainLabel_;
     std::unique_ptr<juce::Label> fuzzLabel_;
+    std::unique_ptr<juce::Label> fuzzValueLabel_;  // Value display
     std::unique_ptr<juce::Label> voiceLabel_;
+    std::unique_ptr<juce::Label> voiceValueLabel_;  // Value display
     std::unique_ptr<juce::Label> trebleLabel_;
+    std::unique_ptr<juce::Label> trebleValueLabel_;  // Value display
     std::unique_ptr<juce::Label> levelLabel_;
+    std::unique_ptr<juce::Label> levelValueLabel_;  // Value display
     
     // LED components for input level meter
     juce::Rectangle<float> redLED_;
@@ -58,12 +61,11 @@ private:
     
     // REMOVED: Auto-gain meter - didn't help with sustain
     
-    // Parameter attachments
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> inputGainAttachment_;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fuzzAttachment_;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> voiceAttachment_;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> trebleAttachment_;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> levelAttachment_;
+    // Parameter pointers - we'll handle these manually since ImageKnobComponent doesn't use SliderAttachment
+    juce::AudioParameterFloat* fuzzParameter_;
+    juce::AudioParameterFloat* voiceParameter_;
+    juce::AudioParameterFloat* trebleParameter_;
+    juce::AudioParameterFloat* levelParameter_;
     
     /**
      * @brief Configure a slider for the front panel
@@ -72,6 +74,18 @@ private:
      * @param labelText Text for the label
      */
     void configureSlider(juce::Slider& slider, juce::Label& label, const juce::String& labelText);
+    
+    /**
+     * @brief Configure a label
+     * @param label Label to configure
+     * @param isValueLabel Whether this is a value display label
+     */
+    void configureLabel(juce::Label& label, bool isValueLabel = false);
+    
+    /**
+     * @brief Set up callbacks for all knobs
+     */
+    void setupKnobCallbacks();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FrontPanelComponent)
 };

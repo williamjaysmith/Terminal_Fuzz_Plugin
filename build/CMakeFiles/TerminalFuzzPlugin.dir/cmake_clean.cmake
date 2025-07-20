@@ -35,6 +35,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o.d"
+  "CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o"
+  "CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o"
@@ -43,13 +45,13 @@ file(REMOVE_RECURSE
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.o"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.o.d"
-  "CMakeFiles/TerminalFuzzPlugin.dir/src/SteelBackgroundComponent.cpp.o"
-  "CMakeFiles/TerminalFuzzPlugin.dir/src/SteelBackgroundComponent.cpp.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o.d"
+  "CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o"
+  "CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o.d"
   "TerminalFuzzPlugin_artefacts/JuceLibraryCode/JuceHeader.h"
-  "TerminalFuzzPlugin_artefacts/Release/libTerminal Fuzz_SharedCode.a"
-  "TerminalFuzzPlugin_artefacts/Release/libTerminal Fuzz_SharedCode.pdb"
+  "TerminalFuzzPlugin_artefacts/libTerminal Fuzz_SharedCode.a"
+  "TerminalFuzzPlugin_artefacts/libTerminal Fuzz_SharedCode.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

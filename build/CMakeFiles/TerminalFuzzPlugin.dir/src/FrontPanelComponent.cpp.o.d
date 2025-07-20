@@ -1578,5 +1578,6 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o: \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/widgets/juce_Limiter.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/widgets/juce_Phaser.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/widgets/juce_Chorus.h \
+  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/ImageKnobComponent.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginParameters.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/Common.h
