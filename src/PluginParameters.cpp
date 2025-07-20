@@ -22,9 +22,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout PluginParameters::createPara
         TREBLE_ID, "Treble", 0.0f, 100.0f, 50.0f, "%"
     ));
     
-    params.push_back(createFloatParameter(
-        LEVEL_ID, "Level", 0.0f, 100.0f, 50.0f, "%"
-    ));
+    // Level parameter removed - hardcoded to 100% in Fuzz Module
 
     // Back Panel Controls - Resistors (in kilohms for readability)
     params.push_back(createFloatParameter(
@@ -354,9 +352,7 @@ float PluginParameters::getTreble(const juce::AudioProcessorValueTreeState& apvt
     return apvts.getRawParameterValue(TREBLE_ID)->load() / 100.0f;
 }
 
-float PluginParameters::getLevel(const juce::AudioProcessorValueTreeState& apvts) {
-    return apvts.getRawParameterValue(LEVEL_ID)->load() / 100.0f;
-}
+// Level parameter removed - hardcoded to 100% in Fuzz Module
 
 // Back panel component getters (convert to base units: ohms and farads)
 float PluginParameters::getR1(const juce::AudioProcessorValueTreeState& apvts) {

@@ -18,7 +18,7 @@ public:
     static constexpr const char* FUZZ_ID = "fuzz";
     static constexpr const char* VOICE_ID = "voice";
     static constexpr const char* TREBLE_ID = "treble";
-    static constexpr const char* LEVEL_ID = "level";
+    // LEVEL_ID removed - hardcoded to 100% in Fuzz Module
     
     // Back Panel Parameter IDs (circuit component tweaking)
     static constexpr const char* R1_ID = "r1";    // 2.2M input bias
@@ -144,7 +144,7 @@ public:
     static float getFuzz(const juce::AudioProcessorValueTreeState& apvts);
     static float getVoice(const juce::AudioProcessorValueTreeState& apvts);
     static float getTreble(const juce::AudioProcessorValueTreeState& apvts);
-    static float getLevel(const juce::AudioProcessorValueTreeState& apvts);
+    // getLevel removed - hardcoded to 100% in Fuzz Module
     
     // Back panel component getters (resistors in ohms, capacitors in farads)
     static float getR1(const juce::AudioProcessorValueTreeState& apvts);

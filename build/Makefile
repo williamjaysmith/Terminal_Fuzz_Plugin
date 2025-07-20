@@ -1026,6 +1026,30 @@ src/FrontPanelComponent.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.s
 .PHONY : src/FrontPanelComponent.cpp.s
 
+src/FuzzCircuit.o: src/FuzzCircuit.cpp.o
+.PHONY : src/FuzzCircuit.o
+
+# target to build an object file
+src/FuzzCircuit.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o
+.PHONY : src/FuzzCircuit.cpp.o
+
+src/FuzzCircuit.i: src/FuzzCircuit.cpp.i
+.PHONY : src/FuzzCircuit.i
+
+# target to preprocess a source file
+src/FuzzCircuit.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.i
+.PHONY : src/FuzzCircuit.cpp.i
+
+src/FuzzCircuit.s: src/FuzzCircuit.cpp.s
+.PHONY : src/FuzzCircuit.s
+
+# target to generate assembly for a file
+src/FuzzCircuit.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.s
+.PHONY : src/FuzzCircuit.cpp.s
+
 src/ImageKnobComponent.o: src/ImageKnobComponent.cpp.o
 .PHONY : src/ImageKnobComponent.o
 
@@ -1145,30 +1169,6 @@ src/PluginProcessor.s: src/PluginProcessor.cpp.s
 src/PluginProcessor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.s
 .PHONY : src/PluginProcessor.cpp.s
-
-src/TerminalCircuit.o: src/TerminalCircuit.cpp.o
-.PHONY : src/TerminalCircuit.o
-
-# target to build an object file
-src/TerminalCircuit.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o
-.PHONY : src/TerminalCircuit.cpp.o
-
-src/TerminalCircuit.i: src/TerminalCircuit.cpp.i
-.PHONY : src/TerminalCircuit.i
-
-# target to preprocess a source file
-src/TerminalCircuit.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.i
-.PHONY : src/TerminalCircuit.cpp.i
-
-src/TerminalCircuit.s: src/TerminalCircuit.cpp.s
-.PHONY : src/TerminalCircuit.s
-
-# target to generate assembly for a file
-src/TerminalCircuit.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.s
-.PHONY : src/TerminalCircuit.cpp.s
 
 src/VintageKnobComponent.o: src/VintageKnobComponent.cpp.o
 .PHONY : src/VintageKnobComponent.o
@@ -1302,6 +1302,9 @@ help:
 	@echo "... src/FrontPanelComponent.o"
 	@echo "... src/FrontPanelComponent.i"
 	@echo "... src/FrontPanelComponent.s"
+	@echo "... src/FuzzCircuit.o"
+	@echo "... src/FuzzCircuit.i"
+	@echo "... src/FuzzCircuit.s"
 	@echo "... src/ImageKnobComponent.o"
 	@echo "... src/ImageKnobComponent.i"
 	@echo "... src/ImageKnobComponent.s"
@@ -1317,9 +1320,6 @@ help:
 	@echo "... src/PluginProcessor.o"
 	@echo "... src/PluginProcessor.i"
 	@echo "... src/PluginProcessor.s"
-	@echo "... src/TerminalCircuit.o"
-	@echo "... src/TerminalCircuit.i"
-	@echo "... src/TerminalCircuit.s"
 	@echo "... src/VintageKnobComponent.o"
 	@echo "... src/VintageKnobComponent.i"
 	@echo "... src/VintageKnobComponent.s"

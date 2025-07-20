@@ -93,7 +93,7 @@ private:
     std::unique_ptr<ImageKnobComponent> fuzzKnob_;
     std::unique_ptr<ImageKnobComponent> voiceKnob_;
     std::unique_ptr<ImageKnobComponent> trebleKnob_;
-    std::unique_ptr<ImageKnobComponent> levelKnob_;
+    // Level knob removed - hardcoded to 100% in Fuzz Module
     
     // Main control labels
     std::unique_ptr<juce::Label> fuzzLabel_;
@@ -102,14 +102,13 @@ private:
     std::unique_ptr<juce::Label> voiceValueLabel_;
     std::unique_ptr<juce::Label> trebleLabel_;
     std::unique_ptr<juce::Label> trebleValueLabel_;
-    std::unique_ptr<juce::Label> levelLabel_;
-    std::unique_ptr<juce::Label> levelValueLabel_;
+    // Level labels removed with knob
     
     // Main control parameters
     juce::AudioParameterFloat* fuzzParameter_;
     juce::AudioParameterFloat* voiceParameter_;
     juce::AudioParameterFloat* trebleParameter_;
-    juce::AudioParameterFloat* levelParameter_;
+    // Level parameter removed - hardcoded to 100% in Fuzz Module
     
     // Current panel mode
     bool showPhysicsPanel_ = false;

@@ -104,19 +104,19 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginEditor.cpp -o CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.s
 
-CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
-CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/TerminalCircuit.cpp
-CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/TerminalCircuit.cpp
+CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
+CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FuzzCircuit.cpp
+CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FuzzCircuit.cpp
 
-CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/TerminalCircuit.cpp > CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.i
+CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FuzzCircuit.cpp > CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.i
 
-CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/TerminalCircuit.cpp -o CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.s
+CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FuzzCircuit.cpp -o CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.s
 
 CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FrontPanelComponent.cpp
@@ -430,7 +430,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.s: 
 TerminalFuzzPlugin_OBJECTS = \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o" \
-"CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o" \
+"CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o" \
@@ -459,7 +459,7 @@ TerminalFuzzPlugin_EXTERNAL_OBJECTS =
 
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o
-TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/TerminalCircuit.cpp.o
+TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o

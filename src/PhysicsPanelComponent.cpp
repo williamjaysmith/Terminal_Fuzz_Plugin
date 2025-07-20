@@ -9,7 +9,7 @@ PhysicsPanelComponent::PhysicsPanelComponent(juce::AudioProcessorValueTreeState&
     : parameters_(parameters)
 {
     // Initialize stock physics values (current working settings)
-    stockPhysics_ = DSP::TerminalCircuit::PhysicsControls{};
+    stockPhysics_ = DSP::FuzzCircuit::PhysicsControls{};
     
     // REMOVED SYNTH HORN - back to clean physics panel
     // Parasitics fixed at 25, thermal/saturation fixed at working levels

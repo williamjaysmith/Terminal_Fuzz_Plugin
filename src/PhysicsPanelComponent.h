@@ -1,7 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "TerminalCircuit.h"
+#include "FuzzCircuit.h"
 
 namespace TerminalFuzz {
 namespace GUI {
@@ -78,7 +78,7 @@ private:
     juce::AudioProcessorValueTreeState& parameters_;
     
     // Stock physics values for reset
-    DSP::TerminalCircuit::PhysicsControls stockPhysics_;
+    DSP::FuzzCircuit::PhysicsControls stockPhysics_;
     
     // Manual transistor gain debugging controls
     std::unique_ptr<juce::Slider> q1DebugSlider_;

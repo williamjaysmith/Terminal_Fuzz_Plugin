@@ -77,8 +77,8 @@ target_sources(TerminalFuzzPlugin
         src/PluginProcessor.h
         src/PluginEditor.cpp
         src/PluginEditor.h
-        src/TerminalCircuit.cpp
-        src/TerminalCircuit.h
+        src/FuzzCircuit.cpp
+        src/FuzzCircuit.h
         src/FrontPanelComponent.cpp
         src/FrontPanelComponent.h
         src/PhysicsPanelComponent.cpp
@@ -120,9 +120,9 @@ target_compile_definitions(TerminalFuzzPlugin
 # Optional test executable (disabled for now)
 # add_executable(TerminalFuzzTests
 #     test_main.cpp
-#     src/TerminalCircuitTests.cpp
-#     src/TerminalCircuit.cpp
-#     src/TerminalCircuit.h
+#     src/FuzzCircuitTests.cpp
+#     src/FuzzCircuit.cpp
+#     src/FuzzCircuit.h
 #     src/TerminalFuzzParameters.cpp
 #     src/TerminalFuzzParameters.h
 #     src/Common.h

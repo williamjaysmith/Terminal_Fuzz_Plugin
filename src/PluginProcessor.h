@@ -2,7 +2,7 @@
 
 #include <JuceHeader.h>
 #include "PluginParameters.h"
-#include "TerminalCircuit.h"
+#include "FuzzCircuit.h"
 
 namespace TerminalFuzz {
 
@@ -61,8 +61,11 @@ public:
     const juce::AudioProcessorValueTreeState& getParameterState() const { return parameters_; }
     
     //==============================================================================
-    // Circuit access
-    const DSP::TerminalCircuit& getTerminalCircuit() const { return terminalCircuit_; }
+    // Fuzz Module access
+    const DSP::FuzzCircuit& getFuzzCircuit() const { return fuzzCircuit_; }
+    
+    // Input level tracking for LED meter
+    float getInputLevelDb() const;
 
 private:
     /**
@@ -73,15 +76,15 @@ private:
     // Parameter management
     juce::AudioProcessorValueTreeState parameters_;
     
-    // DSP components
-    DSP::TerminalCircuit terminalCircuit_;
+    // DSP Modules
+    DSP::FuzzCircuit fuzzCircuit_;  // Main Fuzz Module
     
     // Current parameter values (cached for performance)
     float inputGainDb_ = 0.0f;
     float fuzzAmount_ = 0.5f;
     float voiceAmount_ = 0.5f;
     float trebleAmount_ = 0.5f;
-    float levelAmount_ = 0.5f;
+    // levelAmount_ removed - hardcoded to 100% in Fuzz Module
     
     // Manual transistor gain controls
     float q1ManualGain_ = 0.0f;
@@ -94,7 +97,7 @@ private:
     bool q3Bypass_ = false;
     
     // Current component values
-    DSP::TerminalCircuit::ComponentValues componentValues_;
+    DSP::FuzzCircuit::ComponentValues componentValues_;
     
     // Performance monitoring
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, 
@@ -110,6 +113,14 @@ private:
     
     // Main bypass state
     bool mainBypass_ = false;
+    
+    // Input level tracking for LED meter (moved from TerminalCircuit)
+    struct InputLevelTracker {
+        float averageLevel = 0.0f;
+        float envelopeFollower = 0.0f;
+        int sampleCounter = 0;
+        static const int AVERAGING_SAMPLES = 96000; // 2 seconds at 48kHz
+    } inputLevel_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };

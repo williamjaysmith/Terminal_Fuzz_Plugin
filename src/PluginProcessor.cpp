@@ -144,8 +144,8 @@ void PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
         fclose(debug_file);
     }
     
-    // Prepare the Terminal circuit
-    terminalCircuit_.prepare(sampleRate, samplesPerBlock);
+    // Prepare the Fuzz Module
+    fuzzCircuit_.prepare(sampleRate, samplesPerBlock);
     
     // Prepare DC blocker (safety measure)
     juce::dsp::ProcessSpec spec;
@@ -170,7 +170,7 @@ void PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
 }
 
 void PluginProcessor::releaseResources() {
-    terminalCircuit_.reset();
+    fuzzCircuit_.reset();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -259,25 +259,59 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
     // Update parameters
     updateParameters();
 
-    // Apply input gain (always active - pre and post pedal module)
+    // MODULAR SIGNAL FLOW: Input Gain → LED → [Fuzz Module | Bypass] → Lowpass Filter
+    
+    // Apply input gain (always active - Input Gain Module)
     float inputGainLinear = juce::Decibels::decibelsToGain(inputGainDb_);
     
+    for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
+        auto* channelData = buffer.getWritePointer(channel);
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+            channelData[sample] *= inputGainLinear;
+            
+            // Track input level for LED meter (only on first channel, after input gain)
+            if (channel == 0) {
+                float inputLevel = std::abs(channelData[sample]);
+                
+                // Envelope follower for smoothing
+                float attack = 0.95f;
+                float release = 0.992f;
+                if (inputLevel > inputLevel_.envelopeFollower) {
+                    inputLevel_.envelopeFollower = attack * inputLevel_.envelopeFollower + (1.0f - attack) * inputLevel;
+                } else {
+                    inputLevel_.envelopeFollower = release * inputLevel_.envelopeFollower + (1.0f - release) * inputLevel;
+                }
+                
+                // Update running average every few samples
+                inputLevel_.sampleCounter++;
+                if (inputLevel_.sampleCounter >= 256) {
+                    inputLevel_.averageLevel = inputLevel_.envelopeFollower;
+                    inputLevel_.sampleCounter = 0;
+                }
+            }
+        }
+    }
+    
     if (mainBypass_) {
-        // Bypass mode: Clean signal with input gain only
-        for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
-            auto* channelData = buffer.getWritePointer(channel);
+        // Bypass mode: Clean signal (input gain already applied)
+        // Force stereo output (same as Terminal circuit)
+        if (buffer.getNumChannels() >= 2) {
+            float* leftChannel = buffer.getWritePointer(0);
+            float* rightChannel = buffer.getWritePointer(1);
+            
             for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-                channelData[sample] *= inputGainLinear;
+                rightChannel[sample] = leftChannel[sample];
             }
         }
     } else {
-        // Normal mode: Process through Terminal circuit
-        terminalCircuit_.processBlock(buffer, inputGainDb_, fuzzAmount_, levelAmount_, 
-                                     q1ManualGain_, q2ManualGain_, q3ManualGain_,
-                                     q1Bypass_, q2Bypass_, q3Bypass_, componentValues_);
+        // Normal mode: Process through Fuzz Module (NO input gain - already applied)
+        // Level hardcoded to 100% (1.0f) in Fuzz Module - no longer passed as parameter
+        fuzzCircuit_.processBlock(buffer, 0.0f, fuzzAmount_, 1.0f, 
+                                 q1ManualGain_, q2ManualGain_, q3ManualGain_,
+                                 q1Bypass_, q2Bypass_, q3Bypass_, componentValues_);
     }
     
-    // Apply post-processing lowpass filter (always active - post pedal module)
+    // Apply post-processing lowpass filter (always active - post-fuzz module)
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     
@@ -298,7 +332,7 @@ void PluginProcessor::updateParameters() {
     fuzzAmount_ = PluginParameters::getFuzz(parameters_);
     voiceAmount_ = PluginParameters::getVoice(parameters_);
     trebleAmount_ = PluginParameters::getTreble(parameters_);
-    levelAmount_ = PluginParameters::getLevel(parameters_);
+    // levelAmount_ removed - hardcoded to 100% in Fuzz Module
     
     // Update manual transistor gain controls
     q1ManualGain_ = PluginParameters::getQ1ManualGain(parameters_);
@@ -371,6 +405,13 @@ void PluginProcessor::updateParameters() {
     
     // REMOVED: All anti-gating parameter updates - user found them ineffective
     // All anti-gating effects remain hardcoded in circuit as originally designed
+}
+
+float PluginProcessor::getInputLevelDb() const {
+    if (inputLevel_.averageLevel < 1e-10f) {
+        return -100.0f;  // Very quiet threshold
+    }
+    return juce::Decibels::gainToDecibels(inputLevel_.averageLevel);
 }
 
 bool PluginProcessor::hasEditor() const {

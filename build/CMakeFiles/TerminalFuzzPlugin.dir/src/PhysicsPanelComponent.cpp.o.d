@@ -1578,6 +1578,6 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o: \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/widgets/juce_Limiter.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/widgets/juce_Phaser.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/widgets/juce_Chorus.h \
-  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/TerminalCircuit.h \
+  /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FuzzCircuit.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/Common.h \
   /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginParameters.h

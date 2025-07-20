@@ -236,25 +236,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
     addAndMakeVisible(*trebleKnob_);
     // Hidden controls don't need mouse handlers
     
-    // Create Level control
-    createKnobWithImage(levelKnob_);
-    levelLabel_ = std::make_unique<juce::Label>("", "LEVEL");
-    levelValueLabel_ = std::make_unique<juce::Label>("", "50%");
-    configureLabel(*levelLabel_);
-    configureLabel(*levelValueLabel_, true);
-    addAndMakeVisible(*levelKnob_);
-    // Static labels removed - using dynamic info instead
-    
-    // Add mouse interaction for dynamic info
-    levelKnob_->onMouseEnter = [this]() {
-        if (levelParameter_) {
-            int percentage = static_cast<int>(levelParameter_->get() * 100.0f);
-            updateDynamicInfo("LEVEL " + juce::String(percentage) + "%");
-        }
-    };
-    levelKnob_->onMouseExit = [this]() {
-        clearDynamicInfo();
-    };
+    // Level control removed - now hardcoded to 100% in Fuzz Module
     
     // Get parameters for main controls
     fuzzParameter_ = dynamic_cast<juce::AudioParameterFloat*>(
@@ -263,8 +245,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
         audioProcessor_.getParameterState().getParameter("voice"));
     trebleParameter_ = dynamic_cast<juce::AudioParameterFloat*>(
         audioProcessor_.getParameterState().getParameter("treble"));
-    levelParameter_ = dynamic_cast<juce::AudioParameterFloat*>(
-        audioProcessor_.getParameterState().getParameter("level"));
+    // Level parameter removed - hardcoded to 100% in Fuzz Module
     
     // Set up main knob callbacks
     setupMainKnobCallbacks();
@@ -327,7 +308,7 @@ void PluginEditor::paint(juce::Graphics& g) {
     // Draw shadows for all visible knobs
     drawKnobShadow(inputGainKnob_->getBounds());
     drawKnobShadow(fuzzKnob_->getBounds());
-    drawKnobShadow(levelKnob_->getBounds());
+    // Level knob shadow removed - knob no longer visible
     
     // Draw LED input level indicator (image-based)
     if (!ledBounds_.isEmpty()) {
@@ -423,12 +404,7 @@ void PluginEditor::resized() {
     // Only position FUZZ knob (no static labels)
     fuzzKnob_->setBounds(fuzzCenterX, fuzzY, fuzzKnobSize, fuzzKnobSize);
     
-    // Level control positioned at top right corner (symmetrical with IN knob on top left)
-    auto levelKnobX = static_cast<int>(getWidth() * 0.97f - knobSize); // 3% from right edge (mirroring IN knob)
-    auto levelKnobY = static_cast<int>(getHeight() * 0.05f); // 5% from top (same as IN knob)
-    
-    // Only position LEVEL knob (no static labels)
-    levelKnob_->setBounds(levelKnobX, levelKnobY, knobSize, knobSize);
+    // Level control removed - now hardcoded to 100% in Fuzz Module
     
     // Hide voice and treble controls (set to invisible bounds)
     voiceKnob_->setBounds(0, 0, 0, 0);
@@ -441,8 +417,7 @@ void PluginEditor::resized() {
     // Hide all static labels since we're using dynamic info
     fuzzLabel_->setBounds(0, 0, 0, 0);
     fuzzValueLabel_->setBounds(0, 0, 0, 0);
-    levelLabel_->setBounds(0, 0, 0, 0);
-    levelValueLabel_->setBounds(0, 0, 0, 0);
+    // Level labels removed with knob
     
     // Position main bypass switch (5% higher up)
     auto switchSize = static_cast<int>(getWidth() * 0.144f); // 14.4% of window width (10% smaller)
@@ -488,8 +463,8 @@ void PluginEditor::updatePanelVisibility() {
 }
 
 void PluginEditor::timerCallback() {
-    // Update LED meter with current input level from the circuit
-    float inputLevelDb = audioProcessor_.getTerminalCircuit().getInputLevelDb();
+    // Update LED meter with current input level (post-input-gain, pre-circuit)
+    float inputLevelDb = audioProcessor_.getInputLevelDb();
     updateInputLevelMeter(inputLevelDb);
 }
 
@@ -528,14 +503,7 @@ void PluginEditor::setupMainKnobCallbacks() {
         }
     };
     
-    // Level knob callback with dynamic info
-    levelKnob_->onValueChange = [this](float value) {
-        if (levelParameter_) {
-            levelParameter_->setValueNotifyingHost(value);
-            int percentage = static_cast<int>(value * 100.0f);
-            updateDynamicInfo("LEVEL " + juce::String(percentage) + "%");
-        }
-    };
+    // Level knob callback removed - level hardcoded to 100%
     
     // Set initial values from parameters
     if (fuzzParameter_) {
@@ -553,10 +521,7 @@ void PluginEditor::setupMainKnobCallbacks() {
         trebleKnob_->setValue(value);
     }
     
-    if (levelParameter_) {
-        float value = levelParameter_->get();
-        levelKnob_->setValue(value);
-    }
+    // Level parameter value update removed - level hardcoded to 100%
 }
 
 void PluginEditor::updateDynamicInfo(const juce::String& text) {
