@@ -72,6 +72,7 @@ private:
     juce::Image yellowLedImage_;
     juce::Image greenLedImage_;
     juce::Image redLedImage_;
+    juce::Image yellowLedOffImage_;  // LED off state when bypassed
     juce::Rectangle<float> ledBounds_;
     
     // LED state tracking
@@ -112,6 +113,12 @@ private:
     
     // Current panel mode
     bool showPhysicsPanel_ = false;
+    
+    // Main bypass switch
+    std::unique_ptr<juce::ImageButton> mainBypassSwitch_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> mainBypassAttachment_;
+    juce::Image switchOnImage_;
+    juce::Image switchOffImage_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 };

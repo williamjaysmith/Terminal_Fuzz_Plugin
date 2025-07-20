@@ -259,12 +259,25 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
     // Update parameters
     updateParameters();
 
-    // Process through Terminal circuit with manual transistor gains and bypass controls (tone stack removed)
-    terminalCircuit_.processBlock(buffer, inputGainDb_, fuzzAmount_, levelAmount_, 
-                                 q1ManualGain_, q2ManualGain_, q3ManualGain_,
-                                 q1Bypass_, q2Bypass_, q3Bypass_, componentValues_);
+    // Apply input gain (always active - pre and post pedal module)
+    float inputGainLinear = juce::Decibels::decibelsToGain(inputGainDb_);
     
-    // Apply post-processing lowpass filter (18dB/octave = 3-pole)
+    if (mainBypass_) {
+        // Bypass mode: Clean signal with input gain only
+        for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
+            auto* channelData = buffer.getWritePointer(channel);
+            for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+                channelData[sample] *= inputGainLinear;
+            }
+        }
+    } else {
+        // Normal mode: Process through Terminal circuit
+        terminalCircuit_.processBlock(buffer, inputGainDb_, fuzzAmount_, levelAmount_, 
+                                     q1ManualGain_, q2ManualGain_, q3ManualGain_,
+                                     q1Bypass_, q2Bypass_, q3Bypass_, componentValues_);
+    }
+    
+    // Apply post-processing lowpass filter (always active - post pedal module)
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     
@@ -308,6 +321,9 @@ void PluginProcessor::updateParameters() {
         *lowpassFilter1Pole_.state = *juce::dsp::IIR::Coefficients<float>::makeFirstOrderLowPass(
             getSampleRate(), lowpassFreq_);
     }
+    
+    // Update main bypass state
+    mainBypass_ = PluginParameters::getMainBypass(parameters_);
     
     // Update component values (for back panel tweaking)
     componentValues_.r1 = PluginParameters::getR1(parameters_);

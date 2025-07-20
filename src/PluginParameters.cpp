@@ -190,9 +190,14 @@ juce::AudioProcessorValueTreeState::ParameterLayout PluginParameters::createPara
         PANEL_MODE_ID, "Panel Mode", false  // false = front, true = back
     ));
 
-    // Post-processing lowpass filter (1kHz to 10kHz, default 10kHz)
+    // Post-processing lowpass filter (1kHz to 10kHz, default 2kHz)
     params.push_back(createFloatParameter(
-        LOWPASS_FREQ_ID, "Lowpass Filter", 1000.0f, 10000.0f, 10000.0f, " Hz"
+        LOWPASS_FREQ_ID, "Lowpass Filter", 1000.0f, 10000.0f, 2000.0f, " Hz"
+    ));
+
+    // Main bypass switch (default false = pedal engaged)
+    params.push_back(createBoolParameter(
+        MAIN_BYPASS_ID, "Main Bypass", false
     ));
 
     // Physics Control Parameters (wide ranges for extreme tuning)
@@ -517,6 +522,10 @@ bool PluginParameters::getPanelMode(const juce::AudioProcessorValueTreeState& ap
 
 float PluginParameters::getLowpassFreq(const juce::AudioProcessorValueTreeState& apvts) {
     return apvts.getRawParameterValue(LOWPASS_FREQ_ID)->load();
+}
+
+bool PluginParameters::getMainBypass(const juce::AudioProcessorValueTreeState& apvts) {
+    return apvts.getRawParameterValue(MAIN_BYPASS_ID)->load() > 0.5f;
 }
 
 // Physics parameter getters

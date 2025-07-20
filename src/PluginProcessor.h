@@ -106,7 +106,10 @@ private:
                                    juce::dsp::IIR::Coefficients<float>> lowpassFilter2Pole_;
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, 
                                    juce::dsp::IIR::Coefficients<float>> lowpassFilter1Pole_;
-    float lowpassFreq_ = 10000.0f;
+    float lowpassFreq_ = 2000.0f;
+    
+    // Main bypass state
+    bool mainBypass_ = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };

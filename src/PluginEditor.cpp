@@ -25,6 +25,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
     juce::File yellowLedFile("/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/yellowled.png");
     juce::File greenLedFile("/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/greenled.png");
     juce::File redLedFile("/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/redled.png");
+    juce::File yellowLedOffFile("/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/yellowledoff.png");
     
     if (yellowLedFile.exists()) {
         yellowLedImage_ = juce::ImageFileFormat::loadFrom(yellowLedFile);
@@ -53,6 +54,15 @@ PluginEditor::PluginEditor(PluginProcessor& p)
         DBG("Red LED image file not found");
     }
     
+    if (yellowLedOffFile.exists()) {
+        yellowLedOffImage_ = juce::ImageFileFormat::loadFrom(yellowLedOffFile);
+        if (!yellowLedOffImage_.isValid()) {
+            DBG("Failed to load yellow LED off image");
+        }
+    } else {
+        DBG("Yellow LED off image file not found");
+    }
+    
     // Create panel components (only physics panel needed now since main knobs are in editor)
     physicsPanel_ = std::make_unique<GUI::PhysicsPanelComponent>(audioProcessor_.getParameterState());
     physicsPanel_->setVisible(false);
@@ -77,6 +87,31 @@ PluginEditor::PluginEditor(PluginProcessor& p)
     dynamicInfoLabel_->setColour(juce::Label::textColourId, juce::Colours::white);
     dynamicInfoLabel_->setColour(juce::Label::backgroundColourId, juce::Colours::black.withAlpha(0.7f));
     addAndMakeVisible(*dynamicInfoLabel_);
+    
+    // Load bypass switch images
+    juce::File switchOnFile("/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/switchon.png");
+    juce::File switchOffFile("/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/switchoff.png");
+    
+    if (switchOnFile.exists()) {
+        switchOnImage_ = juce::ImageCache::getFromFile(switchOnFile);
+    }
+    if (switchOffFile.exists()) {
+        switchOffImage_ = juce::ImageCache::getFromFile(switchOffFile);
+    }
+    
+    // Create main bypass switch
+    mainBypassSwitch_ = std::make_unique<juce::ImageButton>("Main Bypass");
+    mainBypassSwitch_->setImages(false, true, true,
+                                switchOnImage_, 1.0f, juce::Colours::transparentBlack,   // Normal: circuit ON
+                                switchOnImage_, 1.0f, juce::Colours::transparentBlack,   // Hover: circuit ON  
+                                switchOffImage_, 1.0f, juce::Colours::transparentBlack); // Toggled: circuit OFF
+    mainBypassSwitch_->setClickingTogglesState(true);
+    mainBypassSwitch_->setTooltip("Bypass fuzz circuit (clean signal with input gain and lowpass filter)");
+    addAndMakeVisible(*mainBypassSwitch_);
+    
+    // Connect bypass switch to parameter
+    mainBypassAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(
+        audioProcessor_.getParameterState(), PluginParameters::MAIN_BYPASS_ID, *mainBypassSwitch_);
     
     // Create Input Gain control (positioned in top area)
     inputGainKnob_ = std::make_unique<ImageKnobComponent>();
@@ -317,31 +352,46 @@ void PluginEditor::paint(juce::Graphics& g) {
         // Reset fill to solid for LED drawing
         g.setFillType(juce::FillType(juce::Colours::white));
         
-        // Draw yellow LED (base layer, always dimly visible)
-        if (yellowLedImage_.isValid()) {
-            g.setOpacity(0.3f + yellowLEDBrightness_ * 0.7f); // 30% base + up to 70% brightness
-            g.drawImageWithin(yellowLedImage_, 
-                            static_cast<int>(ledBounds_.getX()), static_cast<int>(ledBounds_.getY()),
-                            static_cast<int>(ledBounds_.getWidth()), static_cast<int>(ledBounds_.getHeight()),
-                            juce::RectanglePlacement::centred);
-        }
+        // Check if bypass is active
+        bool isBypassed = PluginParameters::getMainBypass(audioProcessor_.getParameterState());
         
-        // Draw green LED (overlay)
-        if (greenLedImage_.isValid() && greenLEDBrightness_ > 0.0f) {
-            g.setOpacity(greenLEDBrightness_);
-            g.drawImageWithin(greenLedImage_, 
-                            static_cast<int>(ledBounds_.getX()), static_cast<int>(ledBounds_.getY()),
-                            static_cast<int>(ledBounds_.getWidth()), static_cast<int>(ledBounds_.getHeight()),
-                            juce::RectanglePlacement::centred);
-        }
-        
-        // Draw red LED (overlay)
-        if (redLedImage_.isValid() && redLEDBrightness_ > 0.0f) {
-            g.setOpacity(redLEDBrightness_);
-            g.drawImageWithin(redLedImage_, 
-                            static_cast<int>(ledBounds_.getX()), static_cast<int>(ledBounds_.getY()),
-                            static_cast<int>(ledBounds_.getWidth()), static_cast<int>(ledBounds_.getHeight()),
-                            juce::RectanglePlacement::centred);
+        if (isBypassed) {
+            // Show off LED when bypassed
+            if (yellowLedOffImage_.isValid()) {
+                g.setOpacity(1.0f);
+                g.drawImageWithin(yellowLedOffImage_, 
+                                static_cast<int>(ledBounds_.getX()), static_cast<int>(ledBounds_.getY()),
+                                static_cast<int>(ledBounds_.getWidth()), static_cast<int>(ledBounds_.getHeight()),
+                                juce::RectanglePlacement::centred);
+            }
+        } else {
+            // Normal LED behavior when circuit is engaged
+            // Draw yellow LED (base layer, always dimly visible)
+            if (yellowLedImage_.isValid()) {
+                g.setOpacity(0.3f + yellowLEDBrightness_ * 0.7f); // 30% base + up to 70% brightness
+                g.drawImageWithin(yellowLedImage_, 
+                                static_cast<int>(ledBounds_.getX()), static_cast<int>(ledBounds_.getY()),
+                                static_cast<int>(ledBounds_.getWidth()), static_cast<int>(ledBounds_.getHeight()),
+                                juce::RectanglePlacement::centred);
+            }
+            
+            // Draw green LED (overlay)
+            if (greenLedImage_.isValid() && greenLEDBrightness_ > 0.0f) {
+                g.setOpacity(greenLEDBrightness_);
+                g.drawImageWithin(greenLedImage_, 
+                                static_cast<int>(ledBounds_.getX()), static_cast<int>(ledBounds_.getY()),
+                                static_cast<int>(ledBounds_.getWidth()), static_cast<int>(ledBounds_.getHeight()),
+                                juce::RectanglePlacement::centred);
+            }
+            
+            // Draw red LED (overlay)
+            if (redLedImage_.isValid() && redLEDBrightness_ > 0.0f) {
+                g.setOpacity(redLEDBrightness_);
+                g.drawImageWithin(redLedImage_, 
+                                static_cast<int>(ledBounds_.getX()), static_cast<int>(ledBounds_.getY()),
+                                static_cast<int>(ledBounds_.getWidth()), static_cast<int>(ledBounds_.getHeight()),
+                                juce::RectanglePlacement::centred);
+            }
         }
         
         // Reset opacity for other drawing operations
@@ -393,6 +443,12 @@ void PluginEditor::resized() {
     fuzzValueLabel_->setBounds(0, 0, 0, 0);
     levelLabel_->setBounds(0, 0, 0, 0);
     levelValueLabel_->setBounds(0, 0, 0, 0);
+    
+    // Position main bypass switch (5% higher up)
+    auto switchSize = static_cast<int>(getWidth() * 0.144f); // 14.4% of window width (10% smaller)
+    auto switchX = (getWidth() - switchSize) / 2;
+    auto switchY = static_cast<int>(getHeight() * 0.85f - switchSize); // 15% up from bottom (5% higher)
+    mainBypassSwitch_->setBounds(switchX, switchY, switchSize, switchSize);
     
     // Move physics panel button to bottom
     auto buttonWidth = 150;
