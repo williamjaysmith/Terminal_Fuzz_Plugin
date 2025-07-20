@@ -8,7 +8,7 @@ Building a faithful JUCE plugin recreation of the EarthQuaker Devices Terminal f
 
 ### Complete Component List
 
-\*\_Resistors:\_ye
+\*\_Resistors:\_yewh
 
 - R1: 2.2MΩ (input bias resistor)
 - R2: 22kΩ (Q2 collector load resistor)

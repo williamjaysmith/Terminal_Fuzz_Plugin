@@ -99,6 +99,14 @@ private:
     // Performance monitoring
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, 
                                    juce::dsp::IIR::Coefficients<float>> dcBlocker_;
+    
+    // Post-processing lowpass filter (18dB/octave = 3-pole)
+    // Implemented as cascaded 2-pole + 1-pole filters
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, 
+                                   juce::dsp::IIR::Coefficients<float>> lowpassFilter2Pole_;
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, 
+                                   juce::dsp::IIR::Coefficients<float>> lowpassFilter1Pole_;
+    float lowpassFreq_ = 10000.0f;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };

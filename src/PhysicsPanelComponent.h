@@ -34,6 +34,11 @@ private:
     
     // Clean physics panel - no user controls
     
+    // Post-processing lowpass filter
+    std::unique_ptr<juce::Slider> lowpassFilterKnob_;
+    std::unique_ptr<juce::Label> lowpassFilterLabel_;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lowpassFilterAttachment_;
+    
     // Tone bypass, harmonics toggle, and reset
     std::unique_ptr<juce::ToggleButton> toneBypassButton_;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toneBypassAttachment_;

@@ -14,6 +14,19 @@ PhysicsPanelComponent::PhysicsPanelComponent(juce::AudioProcessorValueTreeState&
     // REMOVED SYNTH HORN - back to clean physics panel
     // Parasitics fixed at 25, thermal/saturation fixed at working levels
     
+    // Post-processing lowpass filter
+    lowpassFilterKnob_ = std::make_unique<juce::Slider>(juce::Slider::RotaryVerticalDrag, juce::Slider::TextBoxBelow);
+    lowpassFilterKnob_->setTextValueSuffix(" Hz");
+    lowpassFilterKnob_->setTooltip("Post-pedal lowpass filter (18dB/octave)");
+    addAndMakeVisible(*lowpassFilterKnob_);
+    
+    lowpassFilterLabel_ = std::make_unique<juce::Label>("", "LOWPASS");
+    lowpassFilterLabel_->setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(*lowpassFilterLabel_);
+    
+    lowpassFilterAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+        parameters_, PluginParameters::LOWPASS_FREQ_ID, *lowpassFilterKnob_);
+    
     // Tone bypass toggle
     toneBypassButton_ = std::make_unique<juce::ToggleButton>("Bypass Tone Stack");
     toneBypassButton_->setButtonText("BYPASS TONE STACK");
@@ -96,7 +109,7 @@ PhysicsPanelComponent::PhysicsPanelComponent(juce::AudioProcessorValueTreeState&
     
     // Reset button removed
     
-    setSize(600, 200);  // Reduced height after removing auto-gain/misbias buttons
+    setSize(600, 600);  // Full plugin window size
 }
 
 void PhysicsPanelComponent::setupMasterControl(MasterControl& master, 
@@ -159,59 +172,77 @@ void PhysicsPanelComponent::paint(juce::Graphics& g) {
 
 void PhysicsPanelComponent::resized() {
     auto bounds = getLocalBounds();
-    bounds.removeFromTop(60);  // Title space
+    bounds.removeFromTop(100);  // Title and subtitle space
     
-    const int knobSize = 80;
-    const int spacing = 20;
+    const int knobSize = 80;   // Reasonable knob size
+    const int buttonHeight = 30;
+    const int spacing = 30;    // Good spacing
     
-    // Clean physics panel - no knobs, just text
-    bounds.removeFromTop(100); // Space for description text
+    // Top section: Lowpass filter, Tone bypass, and Bit crushing
+    auto topSection = bounds.removeFromTop(200);
+    topSection.reduce(60, 20);  // Side margins
     
-    bounds.removeFromTop(spacing);
+    // Lowpass filter knob (left side)
+    auto filterArea = topSection.removeFromLeft(180);
+    lowpassFilterLabel_->setBounds(filterArea.removeFromTop(25));
+    lowpassFilterKnob_->setBounds(filterArea.removeFromTop(knobSize + 30).withSizeKeepingCentre(knobSize, knobSize + 30));
     
-    // Controls at bottom - simplified physics panel
-    auto controlsArea = bounds.removeFromBottom(120); // Reduced height after removing auto-gain/misbias
+    topSection.removeFromLeft(spacing);  // Gap between filter and buttons
     
-    // First row: Tone bypass, Bit crushing
-    auto controlRow1 = controlsArea.removeFromTop(45);
-    auto halfWidth = controlRow1.getWidth() / 2;
-    toneBypassButton_->setBounds(controlRow1.removeFromLeft(halfWidth).reduced(5));
-    bitCrushingButton_->setBounds(controlRow1.reduced(5));
+    // Buttons area (right side) - centered vertically
+    auto buttonsArea = topSection;
+    auto buttonWidth = (buttonsArea.getWidth() - spacing) / 2;
+    auto buttonY = (buttonsArea.getHeight() - buttonHeight) / 2;
     
-    controlsArea.removeFromTop(10); // Small gap
+    toneBypassButton_->setBounds(buttonsArea.removeFromLeft(buttonWidth)
+                                .withY(buttonY).withHeight(buttonHeight).reduced(10, 0));
+    buttonsArea.removeFromLeft(spacing);
+    bitCrushingButton_->setBounds(buttonsArea
+                                 .withY(buttonY).withHeight(buttonHeight).reduced(10, 0));
     
-    // REMOVED: Auto-gain and extreme misbias row - user found them ineffective
+    bounds.removeFromTop(spacing);  // Gap between sections
     
-    // Reset button removed
+    // Bottom section: Manual transistor gain controls - use remaining space
+    auto debugArea = bounds.removeFromTop(250);
+    debugArea.reduce(60, 0);  // Side margins
     
-    // Manual transistor gain debugging controls (centered in middle section)
-    auto debugArea = getLocalBounds().removeFromBottom(120); // More height for buttons
-    auto totalControlsWidth = 300; // 3 controls x 100px each  
-    auto startX = (debugArea.getWidth() - totalControlsWidth) / 2; // Center horizontally
-    debugArea = debugArea.withX(startX).withWidth(totalControlsWidth);
-    debugArea.reduce(10, 5);
-    auto debugWidth = debugArea.getWidth() / 3;
+    auto controlWidth = debugArea.getWidth() / 3;
     
     // Q2 knob, button, and label
-    auto q2Area = juce::Rectangle<int>(debugArea.getX(), debugArea.getY(), debugWidth, debugArea.getHeight());
-    q2BypassButton_->setBounds(q2Area.removeFromTop(25)); // Bypass button at top
-    q2DebugSlider_->setBounds(q2Area.removeFromTop(65));  // Knob in middle
-    q2DebugLabel_->setBounds(q2Area);                     // Label at bottom
+    auto q2Area = debugArea.removeFromLeft(controlWidth);
+    q2DebugLabel_->setBounds(q2Area.removeFromTop(30));
     q2DebugLabel_->setJustificationType(juce::Justification::centred);
     
+    // Knob with extra space for text value below
+    auto q2KnobArea = q2Area.removeFromTop(knobSize + 40);  // Extra space for value text
+    q2DebugSlider_->setBounds(q2KnobArea.withSizeKeepingCentre(knobSize, knobSize + 30));
+    
+    q2Area.removeFromTop(10);  // Small gap
+    q2BypassButton_->setBounds(q2Area.removeFromTop(buttonHeight).reduced(20, 0));
+    
     // Q3 knob, button, and label  
-    auto q3Area = juce::Rectangle<int>(debugArea.getX() + debugWidth, debugArea.getY(), debugWidth, debugArea.getHeight());
-    q3BypassButton_->setBounds(q3Area.removeFromTop(25)); // Bypass button at top
-    q3DebugSlider_->setBounds(q3Area.removeFromTop(65));  // Knob in middle
-    q3DebugLabel_->setBounds(q3Area);                     // Label at bottom
+    auto q3Area = debugArea.removeFromLeft(controlWidth);
+    q3DebugLabel_->setBounds(q3Area.removeFromTop(30));
     q3DebugLabel_->setJustificationType(juce::Justification::centred);
     
+    // Knob with extra space for text value below
+    auto q3KnobArea = q3Area.removeFromTop(knobSize + 40);  // Extra space for value text
+    q3DebugSlider_->setBounds(q3KnobArea.withSizeKeepingCentre(knobSize, knobSize + 30));
+    
+    q3Area.removeFromTop(10);  // Small gap
+    q3BypassButton_->setBounds(q3Area.removeFromTop(buttonHeight).reduced(20, 0));
+    
     // Q1 knob, button, and label
-    auto q1Area = juce::Rectangle<int>(debugArea.getX() + debugWidth * 2, debugArea.getY(), debugWidth, debugArea.getHeight());
-    q1BypassButton_->setBounds(q1Area.removeFromTop(25)); // Bypass button at top
-    q1DebugSlider_->setBounds(q1Area.removeFromTop(65));  // Knob in middle
-    q1DebugLabel_->setBounds(q1Area);                     // Label at bottom
+    auto q1Area = debugArea;
+    q1DebugLabel_->setBounds(q1Area.removeFromTop(30));
     q1DebugLabel_->setJustificationType(juce::Justification::centred);
+    
+    // Knob with extra space for text value below
+    auto q1KnobArea = q1Area.removeFromTop(knobSize + 40);  // Extra space for value text
+    q1DebugSlider_->setBounds(q1KnobArea.withSizeKeepingCentre(knobSize, knobSize + 30));
+    
+    q1Area.removeFromTop(10);  // Small gap
+    q1BypassButton_->setBounds(q1Area.removeFromTop(buttonHeight).reduced(20, 0));
 }
 
 

@@ -74,6 +74,9 @@ public:
     // Panel mode switch
     static constexpr const char* PANEL_MODE_ID = "panelMode";
     
+    // Post-processing filter
+    static constexpr const char* LOWPASS_FREQ_ID = "lowpass_freq";  // Post-pedal lowpass filter frequency
+    
     // Physics Control Parameter IDs
     // PARASITIC EFFECTS SECTION
     static constexpr const char* PARASITIC_MASTER_ID = "parasitic_master";
@@ -193,6 +196,9 @@ public:
     
     // Panel mode getter
     static bool getPanelMode(const juce::AudioProcessorValueTreeState& apvts);
+    
+    // Post-processing filter getter
+    static float getLowpassFreq(const juce::AudioProcessorValueTreeState& apvts);
     
     // Physics parameter getters
     static float getParasiticMaster(const juce::AudioProcessorValueTreeState& apvts);

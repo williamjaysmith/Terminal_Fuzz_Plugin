@@ -415,15 +415,8 @@ void PluginEditor::resized() {
     ledBounds_ = juce::Rectangle<float>(static_cast<float>(ledX), static_cast<float>(ledY), 
                                        static_cast<float>(ledSize), static_cast<float>(ledSize));
     
-    // Front panel uses the light bottom section of the enclosure
-    // The enclosure image shows the light section starts about halfway down
-    auto panelBounds = bounds;
-    panelBounds.removeFromTop(getHeight() * 0.48f);  // Dark top section
-    panelBounds.removeFromBottom(getHeight() * 0.05f); // Bottom margin
-    panelBounds.reduce(getWidth() * 0.05f, 0);  // Side margins proportional to width
-    
-    // Front panel removed - LED handled directly in PluginEditor
-    physicsPanel_->setBounds(panelBounds);
+    // Physics panel uses the full window when visible
+    physicsPanel_->setBounds(getLocalBounds());
 }
 
 void PluginEditor::updatePanelVisibility() {
@@ -520,7 +513,7 @@ void PluginEditor::clearDynamicInfo() {
 }
 
 void PluginEditor::updateInputLevelMeter(float inputLevelDb) {
-    // LED ranges: Yellow = below -14dB, Green = -14 to -10dB, Red = above -10dB
+    // LED ranges: Yellow = below -16dB, Green = -16 to -10dB, Red = above -10dB
     // Same logic as FrontPanelComponent but using image-based LEDs
     
     if (inputLevelDb > -10.0f) {
@@ -528,7 +521,7 @@ void PluginEditor::updateInputLevelMeter(float inputLevelDb) {
         redLEDTarget_ = 1.0f;
         greenLEDTarget_ = juce::jmax(0.0f, 1.0f - (inputLevelDb + 10.0f) / 5.0f); // Fade out green
         yellowLEDTarget_ = 0.0f;
-    } else if (inputLevelDb >= -14.0f) {
+    } else if (inputLevelDb >= -16.0f) {
         // Ideal range - green LED
         redLEDTarget_ = 0.0f;
         greenLEDTarget_ = 1.0f;
@@ -536,7 +529,7 @@ void PluginEditor::updateInputLevelMeter(float inputLevelDb) {
     } else {
         // Too quiet - yellow LED
         redLEDTarget_ = 0.0f;
-        greenLEDTarget_ = juce::jmax(0.0f, 1.0f - (-14.0f - inputLevelDb) / 5.0f); // Fade out green  
+        greenLEDTarget_ = juce::jmax(0.0f, 1.0f - (-16.0f - inputLevelDb) / 5.0f); // Fade out green  
         yellowLEDTarget_ = 1.0f;
     }
     

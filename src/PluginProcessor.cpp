@@ -156,6 +156,16 @@ void PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     dcBlocker_.prepare(spec);
     *dcBlocker_.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 20.0f);
     
+    // Initialize lowpass filters for 3-pole (18dB/octave) response
+    lowpassFilter2Pole_.prepare(spec);
+    lowpassFilter1Pole_.prepare(spec);
+    
+    // 2-pole Butterworth
+    *lowpassFilter2Pole_.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, lowpassFreq_);
+    
+    // 1-pole filter (6dB/octave)
+    *lowpassFilter1Pole_.state = *juce::dsp::IIR::Coefficients<float>::makeFirstOrderLowPass(sampleRate, lowpassFreq_);
+    
     updateParameters();
 }
 
@@ -254,6 +264,16 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
                                  q1ManualGain_, q2ManualGain_, q3ManualGain_,
                                  q1Bypass_, q2Bypass_, q3Bypass_, componentValues_);
     
+    // Apply post-processing lowpass filter (18dB/octave = 3-pole)
+    juce::dsp::AudioBlock<float> block(buffer);
+    juce::dsp::ProcessContextReplacing<float> context(block);
+    
+    // First apply 2-pole filter (12dB/octave)
+    lowpassFilter2Pole_.process(context);
+    
+    // Then apply 1-pole filter (6dB/octave) for total 18dB/octave
+    lowpassFilter1Pole_.process(context);
+    
     // FIXED: Use actual circuit output (not forced test signal)
     // Circuit calculations are working perfectly - 0.287V output confirmed
     
@@ -276,6 +296,18 @@ void PluginProcessor::updateParameters() {
     q1Bypass_ = PluginParameters::getQ1Bypass(parameters_);
     q2Bypass_ = PluginParameters::getQ2Bypass(parameters_);
     q3Bypass_ = PluginParameters::getQ3Bypass(parameters_);
+    
+    // Update lowpass filter frequency
+    float newLowpassFreq = PluginParameters::getLowpassFreq(parameters_);
+    if (std::abs(newLowpassFreq - lowpassFreq_) > 0.1f) {
+        lowpassFreq_ = newLowpassFreq;
+        
+        // Update both filters for 3-pole response
+        *lowpassFilter2Pole_.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(
+            getSampleRate(), lowpassFreq_);
+        *lowpassFilter1Pole_.state = *juce::dsp::IIR::Coefficients<float>::makeFirstOrderLowPass(
+            getSampleRate(), lowpassFreq_);
+    }
     
     // Update component values (for back panel tweaking)
     componentValues_.r1 = PluginParameters::getR1(parameters_);
