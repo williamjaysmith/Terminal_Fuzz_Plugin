@@ -147,11 +147,14 @@ void PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     // Prepare the Fuzz Module
     fuzzCircuit_.prepare(sampleRate, samplesPerBlock);
     
-    // Prepare DC blocker (safety measure)
+    // Prepare the Output Module and other DSP components
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
     spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
     spec.numChannels = static_cast<juce::uint32>(getTotalNumOutputChannels());
+    
+    // Prepare Output Module for final volume control and metering
+    outputModule_.prepare(spec);
     
     dcBlocker_.prepare(spec);
     *dcBlocker_.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 20.0f);
@@ -321,6 +324,10 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
     // Then apply 1-pole filter (6dB/octave) for total 18dB/octave
     lowpassFilter1Pole_.process(context);
     
+    // Apply final output volume control and metering (last stage)
+    outputModule_.setVolumeDB(outputVolumeDb_);
+    outputModule_.processBlock(buffer);
+    
     // FIXED: Use actual circuit output (not forced test signal)
     // Circuit calculations are working perfectly - 0.287V output confirmed
     
@@ -330,6 +337,7 @@ void PluginProcessor::updateParameters() {
     // Update front panel controls
     inputGainDb_ = PluginParameters::getInputGain(parameters_);
     fuzzAmount_ = PluginParameters::getFuzz(parameters_);
+    outputVolumeDb_ = PluginParameters::getOutputVolume(parameters_);
     voiceAmount_ = PluginParameters::getVoice(parameters_);
     trebleAmount_ = PluginParameters::getTreble(parameters_);
     // levelAmount_ removed - hardcoded to 100% in Fuzz Module
@@ -412,6 +420,14 @@ float PluginProcessor::getInputLevelDb() const {
         return -100.0f;  // Very quiet threshold
     }
     return juce::Decibels::gainToDecibels(inputLevel_.averageLevel);
+}
+
+float PluginProcessor::getOutputLevelDb() const {
+    return outputModule_.getPeakLevelDB();
+}
+
+bool PluginProcessor::isOutputClipping() const {
+    return outputModule_.isClipping();
 }
 
 bool PluginProcessor::hasEditor() const {

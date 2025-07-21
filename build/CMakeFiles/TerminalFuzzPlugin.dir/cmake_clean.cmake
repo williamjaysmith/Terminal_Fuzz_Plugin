@@ -39,6 +39,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o.d"
+  "CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o"
+  "CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o.d"
   "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o"

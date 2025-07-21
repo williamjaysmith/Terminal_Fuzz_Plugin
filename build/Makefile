@@ -1074,6 +1074,30 @@ src/ImageKnobComponent.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.s
 .PHONY : src/ImageKnobComponent.cpp.s
 
+src/OutputModule.o: src/OutputModule.cpp.o
+.PHONY : src/OutputModule.o
+
+# target to build an object file
+src/OutputModule.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o
+.PHONY : src/OutputModule.cpp.o
+
+src/OutputModule.i: src/OutputModule.cpp.i
+.PHONY : src/OutputModule.i
+
+# target to preprocess a source file
+src/OutputModule.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.i
+.PHONY : src/OutputModule.cpp.i
+
+src/OutputModule.s: src/OutputModule.cpp.s
+.PHONY : src/OutputModule.s
+
+# target to generate assembly for a file
+src/OutputModule.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalFuzzPlugin.dir/build.make CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.s
+.PHONY : src/OutputModule.cpp.s
+
 src/PhysicsPanelComponent.o: src/PhysicsPanelComponent.cpp.o
 .PHONY : src/PhysicsPanelComponent.o
 
@@ -1308,6 +1332,9 @@ help:
 	@echo "... src/ImageKnobComponent.o"
 	@echo "... src/ImageKnobComponent.i"
 	@echo "... src/ImageKnobComponent.s"
+	@echo "... src/OutputModule.o"
+	@echo "... src/OutputModule.i"
+	@echo "... src/OutputModule.s"
 	@echo "... src/PhysicsPanelComponent.o"
 	@echo "... src/PhysicsPanelComponent.i"
 	@echo "... src/PhysicsPanelComponent.s"

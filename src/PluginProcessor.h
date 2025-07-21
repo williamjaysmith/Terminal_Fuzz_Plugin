@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "PluginParameters.h"
 #include "FuzzCircuit.h"
+#include "OutputModule.h"
 
 namespace TerminalFuzz {
 
@@ -66,6 +67,10 @@ public:
     
     // Input level tracking for LED meter
     float getInputLevelDb() const;
+    
+    // Output level tracking for dB meter
+    float getOutputLevelDb() const;
+    bool isOutputClipping() const;
 
 private:
     /**
@@ -78,10 +83,12 @@ private:
     
     // DSP Modules
     DSP::FuzzCircuit fuzzCircuit_;  // Main Fuzz Module
+    DSP::OutputModule outputModule_;  // Final output volume and metering
     
     // Current parameter values (cached for performance)
     float inputGainDb_ = 0.0f;
     float fuzzAmount_ = 0.5f;
+    float outputVolumeDb_ = 0.0f;
     float voiceAmount_ = 0.5f;
     float trebleAmount_ = 0.5f;
     // levelAmount_ removed - hardcoded to 100% in Fuzz Module

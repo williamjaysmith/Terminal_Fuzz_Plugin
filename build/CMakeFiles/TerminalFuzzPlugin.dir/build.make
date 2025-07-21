@@ -118,10 +118,24 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FuzzCircuit.cpp -o CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.s
 
+CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
+CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/OutputModule.cpp
+CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/OutputModule.cpp
+
+CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/OutputModule.cpp > CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.i
+
+CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/OutputModule.cpp -o CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.s
+
 CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FrontPanelComponent.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FrontPanelComponent.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.i: cmake_force
@@ -135,7 +149,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.s: cmake_force
 CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PhysicsPanelComponent.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PhysicsPanelComponent.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.i: cmake_force
@@ -149,7 +163,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.s: cmake_force
 CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginParameters.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginParameters.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.i: cmake_force
@@ -163,7 +177,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.s: cmake_force
 CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/VintageKnobComponent.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/VintageKnobComponent.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.i: cmake_force
@@ -177,7 +191,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/VintageKnobComponent.cpp.s: cmake_force
 CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/ImageKnobComponent.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/ImageKnobComponent.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.i: cmake_force
@@ -191,7 +205,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.s: cmake_force
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.i: cmake_force
@@ -205,7 +219,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/ju
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.i: cmake_force
@@ -219,7 +233,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/ju
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.i: cmake_force
@@ -233,7 +247,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_processors/ju
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.i: cmake_force
@@ -247,7 +261,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_extra/juce_gui_
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.i: cmake_force
@@ -261,7 +275,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_gui_basics/juce_gui
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.i: cmake_force
@@ -275,7 +289,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graph
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.i: cmake_force
@@ -289,7 +303,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graph
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_graphics/juce_graphics.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_graphics/juce_graphics.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graphics.mm.i: cmake_force
@@ -303,7 +317,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_graphics/juce_graph
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_events/juce_events.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_events/juce_events.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.mm.i: cmake_force
@@ -317,7 +331,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_events/juce_events.
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.i: cmake_force
@@ -331,7 +345,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core_Comp
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_core/juce_core.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_core/juce_core.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.i: cmake_force
@@ -345,7 +359,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_core/juce_core.mm.s
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_data_structures/juce_data_structures.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_data_structures/juce_data_structures.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juce_data_structures.mm.i: cmake_force
@@ -359,7 +373,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_data_structures/juc
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.i: cmake_force
@@ -373,7 +387,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_basics/juce_a
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.i: cmake_force
@@ -387,7 +401,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_utils/juce_au
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.i: cmake_force
@@ -401,7 +415,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_formats/juce_
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.i: cmake_force
@@ -415,7 +429,7 @@ CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_audio_devices/juce_
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/flags.make
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o: /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/juce_dsp.mm
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o: CMakeFiles/TerminalFuzzPlugin.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o -MF CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o.d -o CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o -c /Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/external/JUCE/modules/juce_dsp/juce_dsp.mm
 
 CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.i: cmake_force
@@ -431,6 +445,7 @@ TerminalFuzzPlugin_OBJECTS = \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o" \
+"CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o" \
 "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o" \
@@ -460,6 +475,7 @@ TerminalFuzzPlugin_EXTERNAL_OBJECTS =
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PluginProcessor.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o
+TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o
@@ -484,7 +500,7 @@ TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/Terminal
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/external/JUCE/modules/juce_dsp/juce_dsp.mm.o
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/build.make
 TerminalFuzzPlugin_artefacts/libTerminal\ Fuzz_SharedCode.a: CMakeFiles/TerminalFuzzPlugin.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Linking CXX static library \"TerminalFuzzPlugin_artefacts/libTerminal Fuzz_SharedCode.a\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Linking CXX static library \"TerminalFuzzPlugin_artefacts/libTerminal Fuzz_SharedCode.a\""
 	$(CMAKE_COMMAND) -P CMakeFiles/TerminalFuzzPlugin.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TerminalFuzzPlugin.dir/link.txt --verbose=$(VERBOSE)
 

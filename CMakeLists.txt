@@ -79,6 +79,8 @@ target_sources(TerminalFuzzPlugin
         src/PluginEditor.h
         src/FuzzCircuit.cpp
         src/FuzzCircuit.h
+        src/OutputModule.cpp
+        src/OutputModule.h
         src/FrontPanelComponent.cpp
         src/FrontPanelComponent.h
         src/PhysicsPanelComponent.cpp

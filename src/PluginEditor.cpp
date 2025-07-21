@@ -218,34 +218,46 @@ PluginEditor::PluginEditor(PluginProcessor& p)
         clearDynamicInfo();
     };
     
-    // Create Voice control (hidden but functional)
-    createKnobWithImage(voiceKnob_);
-    voiceLabel_ = std::make_unique<juce::Label>("", "VOICE");
-    voiceValueLabel_ = std::make_unique<juce::Label>("", "50%");
-    configureLabel(*voiceLabel_);
-    configureLabel(*voiceValueLabel_, true);
-    addAndMakeVisible(*voiceKnob_);
-    // Hidden controls don't need mouse handlers
-    
-    // Create Treble control (hidden but functional)
-    createKnobWithImage(trebleKnob_);
-    trebleLabel_ = std::make_unique<juce::Label>("", "TREBLE");
-    trebleValueLabel_ = std::make_unique<juce::Label>("", "50%");
-    configureLabel(*trebleLabel_);
-    configureLabel(*trebleValueLabel_, true);
-    addAndMakeVisible(*trebleKnob_);
-    // Hidden controls don't need mouse handlers
+    // Tone stack (voice/treble) removed - direct Q2→Q3 coupling
     
     // Level control removed - now hardcoded to 100% in Fuzz Module
+    
+    // Create Output Volume control (final stage after all processing)
+    createKnobWithImage(outputVolumeKnob_);
+    outputVolumeLabel_ = std::make_unique<juce::Label>("", "OUTPUT");
+    outputVolumeValueLabel_ = std::make_unique<juce::Label>("", "0dB");
+    configureLabel(*outputVolumeLabel_);
+    configureLabel(*outputVolumeValueLabel_, true);
+    addAndMakeVisible(*outputVolumeKnob_);
+    
+    // Set output volume knob range (0-1 maps to -100 to +100 dB)
+    outputVolumeKnob_->setRange(0.0f, 1.0f);
+    
+    // Add mouse interaction for dynamic info
+    outputVolumeKnob_->onMouseEnter = [this]() {
+        if (outputVolumeParameter_) {
+            float dbValue = outputVolumeParameter_->get();
+            updateDynamicInfo("OUTPUT " + juce::String(dbValue, 1) + "dB");
+        }
+    };
+    outputVolumeKnob_->onMouseExit = [this]() {
+        clearDynamicInfo();
+    };
+    
+    // Create dB meter display labels
+    outputDbLabel_ = std::make_unique<juce::Label>("", "METER");
+    outputDbValueLabel_ = std::make_unique<juce::Label>("", "-∞dB");
+    configureLabel(*outputDbLabel_);
+    configureLabel(*outputDbValueLabel_, true);
+    addAndMakeVisible(*outputDbLabel_);
+    addAndMakeVisible(*outputDbValueLabel_);
     
     // Get parameters for main controls
     fuzzParameter_ = dynamic_cast<juce::AudioParameterFloat*>(
         audioProcessor_.getParameterState().getParameter("fuzz"));
-    voiceParameter_ = dynamic_cast<juce::AudioParameterFloat*>(
-        audioProcessor_.getParameterState().getParameter("voice"));
-    trebleParameter_ = dynamic_cast<juce::AudioParameterFloat*>(
-        audioProcessor_.getParameterState().getParameter("treble"));
-    // Level parameter removed - hardcoded to 100% in Fuzz Module
+    outputVolumeParameter_ = dynamic_cast<juce::AudioParameterFloat*>(
+        audioProcessor_.getParameterState().getParameter("output_volume"));
+    // Voice/treble parameters removed - tone stack removed
     
     // Set up main knob callbacks
     setupMainKnobCallbacks();
@@ -262,8 +274,8 @@ PluginEditor::PluginEditor(PluginProcessor& p)
     setResizeLimits(400, 400, 1200, 1200);
     getConstrainer()->setFixedAspectRatio(1.0); // Square aspect ratio
     
-    // Start timer for LED meter updates (30 FPS)
-    startTimer(33);
+    // Start timer for LED and dB meter updates (120 FPS for real-time audio metering)
+    startTimer(8);
 }
 
 PluginEditor::~PluginEditor() {
@@ -404,15 +416,18 @@ void PluginEditor::resized() {
     // Only position FUZZ knob (no static labels)
     fuzzKnob_->setBounds(fuzzCenterX, fuzzY, fuzzKnobSize, fuzzKnobSize);
     
+    // Position Output Volume knob (top right)
+    int outputX = getWidth() - 80 - 20; // 20px margin from right
+    int outputY = 80; // Top area
+    outputVolumeKnob_->setBounds(outputX, outputY, 80, 80);
+    
+    // Position dB meter below output knob
+    outputDbLabel_->setBounds(outputX, outputY + 85, 80, 15);
+    outputDbValueLabel_->setBounds(outputX, outputY + 100, 80, 15);
+    
     // Level control removed - now hardcoded to 100% in Fuzz Module
     
-    // Hide voice and treble controls (set to invisible bounds)
-    voiceKnob_->setBounds(0, 0, 0, 0);
-    voiceLabel_->setBounds(0, 0, 0, 0);
-    voiceValueLabel_->setBounds(0, 0, 0, 0);
-    trebleKnob_->setBounds(0, 0, 0, 0);
-    trebleLabel_->setBounds(0, 0, 0, 0);
-    trebleValueLabel_->setBounds(0, 0, 0, 0);
+    // Voice and treble controls removed - tone stack removed
     
     // Hide all static labels since we're using dynamic info
     fuzzLabel_->setBounds(0, 0, 0, 0);
@@ -466,6 +481,30 @@ void PluginEditor::timerCallback() {
     // Update LED meter with current input level (post-input-gain, pre-circuit)
     float inputLevelDb = audioProcessor_.getInputLevelDb();
     updateInputLevelMeter(inputLevelDb);
+    
+    // Update output dB meter
+    float outputLevelDb = audioProcessor_.getOutputLevelDb();
+    bool isClipping = audioProcessor_.isOutputClipping();
+    
+    if (outputDbValueLabel_) {
+        if (outputLevelDb <= -100.0f) {
+            outputDbValueLabel_->setText("-∞dB", juce::dontSendNotification);
+            outputDbValueLabel_->setColour(juce::Label::textColourId, juce::Colours::lightgrey);
+        } else {
+            outputDbValueLabel_->setText(juce::String(outputLevelDb, 1) + "dB", juce::dontSendNotification);
+            
+            // Color code the dB display
+            if (isClipping || outputLevelDb > -0.1f) {
+                outputDbValueLabel_->setColour(juce::Label::textColourId, juce::Colours::red);
+            } else if (outputLevelDb > -6.0f) {
+                outputDbValueLabel_->setColour(juce::Label::textColourId, juce::Colours::orange);
+            } else if (outputLevelDb > -12.0f) {
+                outputDbValueLabel_->setColour(juce::Label::textColourId, juce::Colours::yellow);
+            } else {
+                outputDbValueLabel_->setColour(juce::Label::textColourId, juce::Colours::lightgreen);
+            }
+        }
+    }
 }
 
 void PluginEditor::configureLabel(juce::Label& label, bool isValueLabel) {
@@ -489,17 +528,13 @@ void PluginEditor::setupMainKnobCallbacks() {
         }
     };
     
-    // Voice knob callback (hidden but still functional)
-    voiceKnob_->onValueChange = [this](float value) {
-        if (voiceParameter_) {
-            voiceParameter_->setValueNotifyingHost(value);
-        }
-    };
+    // Voice and treble knob callbacks removed - tone stack removed
     
-    // Treble knob callback (hidden but still functional)
-    trebleKnob_->onValueChange = [this](float value) {
-        if (trebleParameter_) {
-            trebleParameter_->setValueNotifyingHost(value);
+    // Output Volume knob callback
+    outputVolumeKnob_->onValueChange = [this](float value) {
+        if (outputVolumeParameter_) {
+            // The knob value (0-1) is already normalized for the parameter
+            outputVolumeParameter_->setValueNotifyingHost(value);
         }
     };
     
@@ -511,15 +546,13 @@ void PluginEditor::setupMainKnobCallbacks() {
         fuzzKnob_->setValue(value);
     }
     
-    if (voiceParameter_) {
-        float value = voiceParameter_->get();
-        voiceKnob_->setValue(value);
+    if (outputVolumeParameter_) {
+        // Parameter is already normalized (0-1), use directly
+        float normalizedValue = outputVolumeParameter_->get();
+        outputVolumeKnob_->setValue(normalizedValue);
     }
     
-    if (trebleParameter_) {
-        float value = trebleParameter_->get();
-        trebleKnob_->setValue(value);
-    }
+    // Voice and treble parameter initialization removed - tone stack removed
     
     // Level parameter value update removed - level hardcoded to 100%
 }

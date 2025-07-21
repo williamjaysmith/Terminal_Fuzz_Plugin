@@ -91,24 +91,24 @@ private:
     
     // Main control knobs
     std::unique_ptr<ImageKnobComponent> fuzzKnob_;
-    std::unique_ptr<ImageKnobComponent> voiceKnob_;
-    std::unique_ptr<ImageKnobComponent> trebleKnob_;
-    // Level knob removed - hardcoded to 100% in Fuzz Module
+    std::unique_ptr<ImageKnobComponent> outputVolumeKnob_;
+    // Voice/treble knobs removed - tone stack removed
     
     // Main control labels
     std::unique_ptr<juce::Label> fuzzLabel_;
     std::unique_ptr<juce::Label> fuzzValueLabel_;
-    std::unique_ptr<juce::Label> voiceLabel_;
-    std::unique_ptr<juce::Label> voiceValueLabel_;
-    std::unique_ptr<juce::Label> trebleLabel_;
-    std::unique_ptr<juce::Label> trebleValueLabel_;
-    // Level labels removed with knob
+    std::unique_ptr<juce::Label> outputVolumeLabel_;
+    std::unique_ptr<juce::Label> outputVolumeValueLabel_;
+    // Voice/treble labels removed - tone stack removed
+    
+    // Output dB meter display
+    std::unique_ptr<juce::Label> outputDbLabel_;
+    std::unique_ptr<juce::Label> outputDbValueLabel_;
     
     // Main control parameters
     juce::AudioParameterFloat* fuzzParameter_;
-    juce::AudioParameterFloat* voiceParameter_;
-    juce::AudioParameterFloat* trebleParameter_;
-    // Level parameter removed - hardcoded to 100% in Fuzz Module
+    juce::AudioParameterFloat* outputVolumeParameter_;
+    // Voice/treble parameters removed - tone stack removed
     
     // Current panel mode
     bool showPhysicsPanel_ = false;

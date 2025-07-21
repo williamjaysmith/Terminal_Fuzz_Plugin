@@ -16,6 +16,7 @@ public:
     // Front Panel Parameter IDs (user controls)
     static constexpr const char* INPUT_GAIN_ID = "input_gain";
     static constexpr const char* FUZZ_ID = "fuzz";
+    static constexpr const char* OUTPUT_VOLUME_ID = "output_volume";
     static constexpr const char* VOICE_ID = "voice";
     static constexpr const char* TREBLE_ID = "treble";
     // LEVEL_ID removed - hardcoded to 100% in Fuzz Module
@@ -142,6 +143,7 @@ public:
     // Front panel parameter getters
     static float getInputGain(const juce::AudioProcessorValueTreeState& apvts);
     static float getFuzz(const juce::AudioProcessorValueTreeState& apvts);
+    static float getOutputVolume(const juce::AudioProcessorValueTreeState& apvts);
     static float getVoice(const juce::AudioProcessorValueTreeState& apvts);
     static float getTreble(const juce::AudioProcessorValueTreeState& apvts);
     // getLevel removed - hardcoded to 100% in Fuzz Module

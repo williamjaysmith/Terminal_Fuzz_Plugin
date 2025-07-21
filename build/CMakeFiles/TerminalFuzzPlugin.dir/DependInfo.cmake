@@ -28,6 +28,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FrontPanelComponent.cpp" "CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o" "gcc" "CMakeFiles/TerminalFuzzPlugin.dir/src/FrontPanelComponent.cpp.o.d"
   "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/FuzzCircuit.cpp" "CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o" "gcc" "CMakeFiles/TerminalFuzzPlugin.dir/src/FuzzCircuit.cpp.o.d"
   "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/ImageKnobComponent.cpp" "CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o" "gcc" "CMakeFiles/TerminalFuzzPlugin.dir/src/ImageKnobComponent.cpp.o.d"
+  "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/OutputModule.cpp" "CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o" "gcc" "CMakeFiles/TerminalFuzzPlugin.dir/src/OutputModule.cpp.o.d"
   "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PhysicsPanelComponent.cpp" "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o" "gcc" "CMakeFiles/TerminalFuzzPlugin.dir/src/PhysicsPanelComponent.cpp.o.d"
   "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginEditor.cpp" "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o" "gcc" "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginEditor.cpp.o.d"
   "/Users/williamsmith/Desktop/Terminal_Fuzz_Plugin/src/PluginParameters.cpp" "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o" "gcc" "CMakeFiles/TerminalFuzzPlugin.dir/src/PluginParameters.cpp.o.d"
