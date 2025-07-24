@@ -295,6 +295,23 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
         }
     }
     
+    // DEBUG: Check bypass state
+    static int bypass_debug = 0;
+    bypass_debug++;
+    if (bypass_debug <= 3) {
+        FILE* debug_file = fopen("/Users/williamsmith/Desktop/bypass_debug.log", "a");
+        if (debug_file) {
+            fprintf(debug_file, "=== BYPASS CHECK #%d ===\n", bypass_debug);
+            fprintf(debug_file, "Main Bypass: %s\n", mainBypass_ ? "TRUE" : "FALSE");
+            fprintf(debug_file, "Fuzz Amount: %.3f\n", fuzzAmount_);
+            fprintf(debug_file, "Q2 Manual Gain: %.1fdB\n", q2ManualGain_);
+            fprintf(debug_file, "Q3 Manual Gain: %.1fdB\n", q3ManualGain_);
+            fprintf(debug_file, "Q2 Bypass: %s\n", q2Bypass_ ? "TRUE" : "FALSE");
+            fprintf(debug_file, "Q3 Bypass: %s\n", q3Bypass_ ? "TRUE" : "FALSE");
+            fclose(debug_file);
+        }
+    }
+    
     if (mainBypass_) {
         // Bypass mode: Clean signal (input gain already applied)
         // Force stereo output (same as Terminal circuit)

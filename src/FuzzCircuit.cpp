@@ -204,26 +204,40 @@ float FuzzCircuit::processSample(float sample, int channel,
         q2Output = q2TransistorStage(q2Input, channel, q2GainDb, cv);
     }
     
-    // DEBUG: Critical Q2→Q3 transition debugging
+    // DEBUG: Critical signal level debugging
     static int debug_count = 0;
     debug_count++;
     if (debug_count <= 5) {
-        FILE* debug_file = fopen("/Users/williamsmith/Desktop/q2_q3_debug.log", "a");
+        FILE* debug_file = fopen("/Users/williamsmith/Desktop/signal_debug.log", "a");
         if (debug_file) {
-            fprintf(debug_file, "=== Q2→Q3 TRANSITION #%d ===\n", debug_count);
-            fprintf(debug_file, "Q2 Input: %.6f\n", fuzzedSignal);
+            fprintf(debug_file, "=== SIGNAL LEVELS #%d ===\n", debug_count);
+            fprintf(debug_file, "Input Sample: %.6f\n", sample);
+            fprintf(debug_file, "C1 Coupled: %.6f\n", c1_coupled);
+            fprintf(debug_file, "Fuzz Level: %.1fx\n", fuzzLevel);
+            fprintf(debug_file, "Fuzzed Signal: %.6f\n", fuzzedSignal);
+            fprintf(debug_file, "Q2 Manual Gain: %.1fdB\n", q2GainDb);
+            fprintf(debug_file, "Q2 Bypass: %s\n", q2Bypass ? "YES" : "NO");
+            fprintf(debug_file, "Q2 Input: %.6f\n", q2Input);
             fprintf(debug_file, "Q2 Output: %.6f\n", q2Output);
-            fprintf(debug_file, "Q2 Output RMS: %.6f\n", std::abs(q2Output));
-            fprintf(debug_file, "Q2 Output > 0.01? %s\n", (std::abs(q2Output) > 0.01f) ? "YES" : "NO");
+            fprintf(debug_file, "Q3 Bypass: %s\n", q3Bypass ? "YES" : "NO");
             fclose(debug_file);
         }
     }
     
     // TONE STACK REMOVED - Direct Q2→Q3 coupling for pure fuzz module character
     
-    // Q2→Q3 Gain Buffer (realistic intermediate stage)
-    float q2_to_q3_gain = 2.0f;   // Reduced from 15x to 2x to prevent Q3 overload
-    float q3_buffer_input = q2Output * q2_to_q3_gain;
+    // R3/R8 VOLTAGE DIVIDER NETWORK (from schematic) - PROPER TEST WITH BYPASS OFF
+    // R3: 1MΩ coupling resistor between Q2→Q3
+    // R8: 470kΩ base bias resistor for Q3
+    float r3_coupling = 1000000.0f;    // R3: 1MΩ from schematic
+    float r8_bias = 470000.0f;         // R8: 470kΩ from schematic
+    float voltage_divider_ratio = r8_bias / (r3_coupling + r8_bias);  // ~0.32 (32%)
+    
+    // Apply voltage divider with precise compensation to match working levels
+    float q2_divided = q2Output * voltage_divider_ratio;  // Apply authentic voltage division
+    // Compensate to restore working fuzz levels: original was ~2x, so need 2x / 0.32 = 6.25x
+    float compensation_gain = 6.25f;  // Precise compensation to match working version
+    float q3_buffer_input = q2_divided * compensation_gain;  // Net: 0.32 * 6.25 = 2x (matches working)
     
     // Add DC bias to Q3 input with slight misbias for vintage character
     float q3_optimal_bias = 0.1f;
@@ -277,7 +291,8 @@ float FuzzCircuit::processSample(float sample, int channel,
         if (debug_file) {
             fprintf(debug_file, "=== Q2→Q3 BUFFER STAGE ===\n");
             fprintf(debug_file, "Q2 Output (raw): %.6f\n", q2Output);
-            fprintf(debug_file, "Q2→Q3 Gain: %.1fx\n", q2_to_q3_gain);
+            fprintf(debug_file, "Voltage Divider Ratio: %.2f\n", voltage_divider_ratio);
+            fprintf(debug_file, "Compensation Gain: %.2fx\n", compensation_gain);
             fprintf(debug_file, "Q3 Buffer Input: %.6f\n", q3_buffer_input);
             fprintf(debug_file, "Q3 DC Bias: %.6f\n", q3_dc_bias);
             fprintf(debug_file, "Q3 Final Input: %.6f\n", q3_final_input);
